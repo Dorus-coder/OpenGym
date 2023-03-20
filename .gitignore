@@ -7,6 +7,7 @@ __pycache__/
 *.so
 
 # Distribution / packaging
+gym-examples/
 .Python
 build/
 develop-eggs/
