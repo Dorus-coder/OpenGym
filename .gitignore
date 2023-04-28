@@ -6,6 +6,15 @@ __pycache__/
 # C extensions
 *.so
 
+# layout folders
+layouts/
+
+# models and logs
+logs/
+*.log
+models/
+*.zip
+
 # Distribution / packaging
 gym-examples/
 .Python

@@ -1,0 +1,25 @@
+version: 1
+disable_existing_loggers: False
+formatters:
+  simple: 
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+handlers:
+  file_handler:
+    class: logging.FileHandler
+    level: DEBUG
+    formatter: simple
+    filename: logs/env2.log
+    mode: 'w'
+  console:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: simple
+loggers:
+  "__main__":
+    level: INFO
+    handlers: ["file_handler"]
+    propogate: False
+  piascomms:
+    level: DEBUG
+    handlers: ["file_handler"]
+    propogate: False

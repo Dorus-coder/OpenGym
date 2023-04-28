@@ -1,0 +1,19 @@
+{
+    "data_source": "C:\\Users\\cursist\\Dorus\\OpenGym\\recieved_data.xml",
+    "hull_source": ["C:\\Users\\cursist\\Dorus\\ThesisResearch\\PiasExampleFiles\\NoTrans", "C:\\Users\\cursist\\Dorus\\ThesisResearch\\PiasExampleFiles\\back_up_empty_ship"],
+    "temp_file": "C:\\Users\\cursist\\Dorus\\ThesisResearch\\PiasExampleFiles\\temp\\goa1",
+    "temp_file_no_suffix": "C:\\Users\\cursist\\Dorus\\ThesisResearch\\PiasExampleFiles\\temp",
+    "ai_results": "C:\\Users\\cursist\\Dorus\\ThesisResearch\\PiasExampleFiles\\temp\\goa1",
+    "serverport": 14100,
+    "servermode": "noHMI",
+    "length": 96,
+    "breadth": 11.5,
+    "depth": 10,
+    "max_volume": 7000,
+    "max_episode_length": 15,
+    "min_compartment_volume_a": 800,
+    "min_compartment_volume_b": 450,
+    "min_compartment_volume_c": 30,
+    "converge_treshold": 0.01,
+    "time_limit_pias": 900 
+}

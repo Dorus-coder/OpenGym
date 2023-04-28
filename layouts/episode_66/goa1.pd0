@@ -1,0 +1,678 @@
+According to the regulations of SOLAS 2009.
+Calculation method probability of flooding: numerical integration.
+Damage at SB.
+
+
+Light service draft
+Intact draft = 3.000 m
+Intact trim = 0.000 m
+Intact VCG' = 5.323 m (MG' = 1.000 m)
+Intact displacement = 1461.000 ton
+
+Partial subdivision draft
+Intact draft = 3.600 m
+Intact trim = 0.000 m
+Intact VCG' = 4.966 m (MG' = 1.000 m)
+Intact displacement = 1964.546 ton
+
+Deepest subdivision draft
+Intact draft = 4.000 m
+Intact trim = 0.000 m
+Intact VCG' = 4.776 m (MG' = 1.000 m)
+Intact displacement = 2312.519 ton
+
+
+Details of choices and options
+-  Numerical integration step accuracy (on a scale of 0..100): 0.
+-  Reference point for the determination of penetration depth:
+   Waterline breadth.
+-  No standard intermediate stages of flooding have been included.
+-  Type of vessel: Cargo vessel.
+
+
+
+
+
+25 Apr 2023  12:30:47       Damage case : 1.1
+======================================================================
+      Intact draft =    3.000                 Intact trim =    0.000
+                a|A|A|A|A|A|A||A|A|
+                      pi * ri * vi =    0.0861
+               Inclination     Draft      Trim     Lever
+                    -60.00     1.050     0.383     0.042
+                    -50.00     1.909     0.480    -0.058
+                    -40.00     2.426     0.331    -0.146
+                    -35.00     2.600     0.178    -0.195
+                    -30.00     2.743    -0.013    -0.219
+                    -25.00     2.855    -0.192    -0.216
+                    -20.00     2.934    -0.327    -0.200
+                    -15.00     2.987    -0.419    -0.168
+                    -10.00     3.020    -0.475    -0.120
+                     -5.00     3.038    -0.504    -0.062
+                     -2.50     3.042    -0.510    -0.032
+                      0.00     3.043    -0.513     0.000
+                      2.50     3.042    -0.510     0.032
+                      5.00     3.038    -0.504     0.062
+                     10.00     3.020    -0.475     0.120
+                     15.00     2.987    -0.419     0.168
+                     20.00     2.934    -0.327     0.200
+                     25.00     2.855    -0.192     0.216
+                     30.00     2.743    -0.013     0.219
+                     35.00     2.600     0.178     0.195
+                     40.00     2.426     0.331     0.146
+                     50.00     1.909     0.480     0.058
+                     60.00     1.050     0.383    -0.042
+- - - - - - - - Results for portside- - - - - - - - 
+         Equilibrium angle of heel =    0.00 degrees
+                 Downflooding angle=   48.67 degrees  (Downflooding opening : mid port)
+                        Maximum GZ =    0.220 m
+                             Range =   48.67 degrees
+                                 s =    1.0000
+- - - - - - - - Results for starboard- - - - - - - - 
+         Equilibrium angle of heel =    0.00 degrees
+                 Downflooding angle=   48.65 degrees  (Downflooding opening : mid starboard)
+                        Maximum GZ =    0.220 m
+                             Range =   48.65 degrees
+                                 s =    1.0000
+                                si =    1.0000
+                                ai =    0.0861
+
+
+25 Apr 2023  12:30:47       Damage case : 1.2
+======================================================================
+      Intact draft =    3.000                 Intact trim =    0.000
+                a|A|A|A|A|A|A||A|A|A
+                      pi * ri * vi =    0.2338
+               Inclination     Draft      Trim     Lever
+                    -60.00     3.528    -8.163     0.136
+                    -50.00     3.720    -5.861     0.059
+                    -40.00     3.845    -4.490     0.045
+                    -35.00     3.877    -4.002     0.040
+                    -30.00     3.887    -3.600     0.018
+                    -25.00     3.885    -3.273    -0.009
+                    -20.00     3.881    -3.022    -0.031
+                    -15.00     3.881    -2.852    -0.039
+                    -10.00     3.886    -2.777    -0.034
+                     -5.00     3.893    -2.769    -0.016
+                     -2.50     3.895    -2.767    -0.008
+                      0.00     3.895    -2.767     0.000
+                      2.50     3.895    -2.767     0.008
+                      5.00     3.893    -2.769     0.016
+                     10.00     3.886    -2.777     0.034
+                     15.00     3.881    -2.852     0.039
+                     20.00     3.881    -3.022     0.031
+                     25.00     3.885    -3.273     0.009
+                     30.00     3.887    -3.600    -0.018
+                     35.00     3.877    -4.002    -0.040
+                     40.00     3.845    -4.490    -0.045
+                     50.00     3.720    -5.861    -0.059
+                     60.00     3.528    -8.163    -0.136
+- - - - - - - - Results for portside- - - - - - - - 
+         Equilibrium angle of heel =    0.00 degrees
+                 Downflooding angle=   19.66 degrees  (Downflooding opening : aft port)
+                        Maximum GZ =    0.039 m
+                             Range =   19.66 degrees
+                                 s =    0.7572
+- - - - - - - - Results for starboard- - - - - - - - 
+         Equilibrium angle of heel =    0.00 degrees
+                 Downflooding angle=   19.64 degrees  (Downflooding opening : aft starboard)
+                        Maximum GZ =    0.039 m
+                             Range =   19.64 degrees
+                                 s =    0.7572
+                                si =    0.7572
+                                ai =    0.1770
+
+
+25 Apr 2023  12:30:47       Damage case : 1.3
+======================================================================
+      Intact draft =    3.000                 Intact trim =    0.000
+                A|A|A|A|A|A|A|A|A|A|A|A|A|BA
+                      pi * ri * vi =    0.3493
+               Inclination     Draft      Trim     Lever
+                    -60.00     5.977    10.409     0.072
+                    -50.00     5.710     8.683    -0.151
+                    -40.00     5.576     7.598    -0.320
+                    -35.00     5.541     7.191    -0.372
+                    -30.00     5.523     6.863    -0.398
+                    -25.00     5.520     6.613    -0.394
+                    -20.00     5.531     6.435    -0.358
+                    -15.00     5.555     6.327    -0.291
+                    -10.00     5.580     6.264    -0.200
+                     -5.00     5.597     6.220    -0.100
+                     -2.50     5.601     6.207    -0.050
+                      0.00     5.602     6.204     0.000
+                      2.50     5.601     6.207     0.050
+                      5.00     5.597     6.220     0.100
+                     10.00     5.580     6.264     0.200
+                     15.00     5.554     6.329     0.291
+                     20.00     5.531     6.435     0.358
+                     25.00     5.520     6.613     0.394
+                     30.00     5.523     6.863     0.398
+                     35.00     5.541     7.191     0.372
+                     40.00     5.576     7.599     0.320
+                     50.00     5.710     8.683     0.151
+                     60.00     5.977    10.409    -0.072
+- - - - - - - - Results for portside- - - - - - - - 
+         Equilibrium angle of heel =    0.00 degrees
+                 Downflooding angle=   20.68 degrees  (Downflooding opening : mid port)
+                        Maximum GZ =    0.365 m
+                             Range =   20.68 degrees
+                                 s =    1.0000
+- - - - - - - - Results for starboard- - - - - - - - 
+         Equilibrium angle of heel =    0.00 degrees
+                 Downflooding angle=   20.66 degrees  (Downflooding opening : mid starboard)
+                        Maximum GZ =    0.365 m
+                             Range =   20.66 degrees
+                                 s =    1.0000
+                                si =    1.0000
+                                ai =    0.3493
+
+
+25 Apr 2023  12:30:47       Damage case : 1.4
+======================================================================
+      Intact draft =    3.000                 Intact trim =    0.000
+                |A|A|A|A|A|A|A|A|A|A|A|A|AAA
+                      pi * ri * vi =    0.1345
+               Inclination     Draft      Trim     Lever
+                    -60.00     0.868     3.993    -0.103
+                    -50.00     1.853     3.196    -0.228
+                    -40.00     2.471     2.574    -0.262
+                    -35.00     2.674     2.227    -0.281
+                    -30.00     2.833     1.895    -0.286
+                    -25.00     2.952     1.599    -0.277
+                    -20.00     3.038     1.345    -0.255
+                    -15.00     3.097     1.138    -0.216
+                    -10.00     3.135     0.983    -0.159
+                     -5.00     3.156     0.884    -0.085
+                     -2.50     3.161     0.857    -0.043
+                      0.00     3.163     0.849     0.000
+                      2.50     3.161     0.857     0.043
+                      5.00     3.156     0.884     0.085
+                     10.00     3.135     0.983     0.159
+                     15.00     3.097     1.138     0.216
+                     20.00     3.038     1.345     0.255
+                     25.00     2.952     1.599     0.277
+                     30.00     2.833     1.894     0.287
+                     35.00     2.674     2.227     0.281
+                     40.00     2.471     2.574     0.262
+                     50.00     1.853     3.196     0.228
+                     60.00     0.868     3.993     0.103
+- - - - - - - - Results for portside- - - - - - - - 
+         Equilibrium angle of heel =    0.00 degrees
+                 Downflooding angle=   51.63 degrees  (Downflooding opening : mid port)
+                        Maximum GZ =    0.287 m
+                             Range =   51.63 degrees
+                                 s =    1.0000
+- - - - - - - - Results for starboard- - - - - - - - 
+         Equilibrium angle of heel =    0.00 degrees
+                 Downflooding angle=   51.62 degrees  (Downflooding opening : mid starboard)
+                        Maximum GZ =    0.287 m
+                             Range =   51.62 degrees
+                                 s =    1.0000
+                                si =    1.0000
+                                ai =    0.1345
+
+
+25 Apr 2023  12:30:47       Damage case : 2.1
+======================================================================
+      Intact draft =    3.000                 Intact trim =    0.000
+                a|A|A|A|A|A|A||A|A|
+                a|A|A|A|A|A|A||A|A|A
+                      pi * ri * vi =    0.0631
+                 The vessel has sunk
+                                si =    0.0000
+                                ai =    0.0000
+
+
+25 Apr 2023  12:30:47       Damage case : 2.2
+======================================================================
+      Intact draft =    3.000                 Intact trim =    0.000
+                a|A|A|A|A|A|A||A|A|A
+                A|A|A|A|A|A|A|A|A|A|A|A|A|BA
+                      pi * ri * vi =    0.0673
+                 The vessel has sunk
+                                si =    0.0000
+                                ai =    0.0000
+
+
+25 Apr 2023  12:30:48       Damage case : 2.3
+======================================================================
+      Intact draft =    3.000                 Intact trim =    0.000
+                A|A|A|A|A|A|A|A|A|A|A|A|A|BA
+                |A|A|A|A|A|A|A|A|A|A|A|A|AAA
+                      pi * ri * vi =    0.0658
+                 The vessel has sunk
+                                si =    0.0000
+                                ai =    0.0000
+
+
+25 Apr 2023  12:30:48       Damage case : 3.1
+======================================================================
+      Intact draft =    3.000                 Intact trim =    0.000
+                a|A|A|A|A|A|A||A|A|
+                a|A|A|A|A|A|A||A|A|A
+                A|A|A|A|A|A|A|A|A|A|A|A|A|BA
+                      pi * ri * vi =    0.0000
+                 The vessel has sunk
+                                si =    0.0000
+                                ai =    0.0000
+
+
+25 Apr 2023  12:30:48       Damage case : 1.1
+======================================================================
+      Intact draft =    3.600                 Intact trim =    0.000
+                a|A|A|A|A|A|A||A|A|
+                      pi * ri * vi =    0.0861
+               Inclination     Draft      Trim     Lever
+                    -60.00     2.895    -3.928    -0.060
+                    -50.00     3.220    -2.455    -0.191
+                    -40.00     3.439    -1.607    -0.249
+                    -35.00     3.508    -1.352    -0.274
+                    -30.00     3.556    -1.182    -0.294
+                    -25.00     3.595    -1.090    -0.293
+                    -20.00     3.634    -1.085    -0.250
+                    -15.00     3.664    -1.107    -0.188
+                    -10.00     3.683    -1.119    -0.125
+                     -5.00     3.692    -1.124    -0.062
+                     -2.50     3.695    -1.125    -0.031
+                      0.00     3.695    -1.125     0.000
+                      2.50     3.695    -1.125     0.031
+                      5.00     3.692    -1.124     0.062
+                     10.00     3.683    -1.119     0.125
+                     15.00     3.664    -1.107     0.188
+                     20.00     3.634    -1.085     0.250
+                     25.00     3.595    -1.091     0.293
+                     30.00     3.556    -1.182     0.294
+                     35.00     3.508    -1.352     0.274
+                     40.00     3.439    -1.607     0.249
+                     50.00     3.220    -2.455     0.191
+                     60.00     2.895    -3.928     0.060
+- - - - - - - - Results for portside- - - - - - - - 
+         Equilibrium angle of heel =    0.00 degrees
+                 Downflooding angle=   31.72 degrees  (Downflooding opening : aft port)
+                        Maximum GZ =    0.298 m
+                             Range =   31.72 degrees
+                                 s =    1.0000
+- - - - - - - - Results for starboard- - - - - - - - 
+         Equilibrium angle of heel =    0.00 degrees
+                 Downflooding angle=   31.70 degrees  (Downflooding opening : aft starboard)
+                        Maximum GZ =    0.298 m
+                             Range =   31.70 degrees
+                                 s =    1.0000
+                                si =    1.0000
+                                ai =    0.0861
+
+
+25 Apr 2023  12:30:49       Damage case : 1.2
+======================================================================
+      Intact draft =    3.600                 Intact trim =    0.000
+                a|A|A|A|A|A|A||A|A|A
+                      pi * ri * vi =    0.2338
+               Inclination     Draft      Trim     Lever
+                    -60.00     6.891   -18.443     0.135
+                    -50.00     6.172   -13.344     0.078
+                    -40.00     5.780   -10.486     0.063
+                    -35.00     5.661    -9.547     0.072
+                    -30.00     5.579    -8.860     0.087
+                    -25.00     5.520    -8.366     0.098
+                    -20.00     5.458    -7.926     0.095
+                    -15.00     5.402    -7.575     0.078
+                    -10.00     5.347    -7.263     0.052
+                     -5.00     5.303    -7.031     0.021
+                     -2.50     5.294    -6.982     0.009
+                      0.00     5.294    -6.979     0.000
+                      2.50     5.294    -6.982    -0.009
+                      5.00     5.303    -7.031    -0.021
+                     10.00     5.347    -7.263    -0.052
+                     15.00     5.402    -7.575    -0.078
+                     20.00     5.461    -7.943    -0.095
+                     25.00     5.520    -8.364    -0.098
+                     30.00     5.577    -8.849    -0.087
+                     35.00     5.661    -9.546    -0.072
+                     40.00     5.780   -10.486    -0.063
+                     50.00     6.171   -13.341    -0.078
+                     60.00     6.891   -18.443    -0.135
+- - - - - - - - Results for portside- - - - - - - - 
+         Equilibrium angle of heel =   60.00 degrees
+                 Downflooding angle=   -0.01 degrees  (Downflooding opening : aft port)
+                        Maximum GZ =    0.000 m
+                             Range =    0.00 degrees
+                     Vessel capsized
+                                 s =    0.0000
+- - - - - - - - Results for starboard- - - - - - - - 
+         Equilibrium angle of heel =   60.00 degrees
+                 Downflooding angle=   -0.01 degrees  (Downflooding opening : aft port)
+                        Maximum GZ =    0.000 m
+                             Range =    0.00 degrees
+                     Vessel capsized
+                                 s =    0.0000
+                                si =    0.0000
+                                ai =    0.0000
+
+
+25 Apr 2023  12:30:49       Damage case : 1.3
+======================================================================
+      Intact draft =    3.600                 Intact trim =    0.000
+                A|A|A|A|A|A|A|A|A|A|A|A|A|BA
+                      pi * ri * vi =    0.3493
+               Inclination     Draft      Trim     Lever
+                    -60.00    16.984    36.587     0.205
+                    -50.00    13.029    25.406     0.064
+                    -40.00    10.548    18.349    -0.066
+                    -35.00     9.619    15.688    -0.122
+                    -30.00     8.844    13.456    -0.169
+                    -25.00     8.200    11.590    -0.202
+                    -20.00     7.676    10.063    -0.217
+                    -15.00     7.274     8.879    -0.207
+                    -10.00     6.996     8.052    -0.166
+                     -5.00     6.831     7.559    -0.095
+                     -2.50     6.786     7.428    -0.049
+                      0.00     6.768     7.374     0.000
+                      2.50     6.786     7.428     0.049
+                      5.00     6.831     7.559     0.095
+                     10.00     6.996     8.052     0.166
+                     15.00     7.274     8.879     0.207
+                     20.00     7.676    10.063     0.217
+                     25.00     8.200    11.590     0.202
+                     30.00     8.843    13.454     0.169
+                     35.00     9.619    15.688     0.122
+                     40.00    10.547    18.344     0.066
+                     50.00    13.029    25.406    -0.064
+                     60.00    16.984    36.587    -0.205
+- - - - - - - - Results for portside- - - - - - - - 
+         Equilibrium angle of heel =    0.00 degrees
+                 Downflooding angle=    4.44 degrees  (Downflooding opening : mid port)
+                        Maximum GZ =    0.085 m
+                             Range =    4.44 degrees
+                                 s =    0.6658
+- - - - - - - - Results for starboard- - - - - - - - 
+         Equilibrium angle of heel =    0.00 degrees
+                 Downflooding angle=    4.42 degrees  (Downflooding opening : mid starboard)
+                        Maximum GZ =    0.085 m
+                             Range =    4.42 degrees
+                                 s =    0.6644
+                                si =    0.6644
+                                ai =    0.2321
+
+
+25 Apr 2023  12:30:49       Damage case : 1.4
+======================================================================
+      Intact draft =    3.600                 Intact trim =    0.000
+                |A|A|A|A|A|A|A|A|A|A|A|A|AAA
+                      pi * ri * vi =    0.1345
+               Inclination     Draft      Trim     Lever
+                    -60.00     2.493     2.098    -0.254
+                    -50.00     3.001     1.961    -0.427
+                    -40.00     3.367     1.916    -0.469
+                    -35.00     3.500     1.823    -0.461
+                    -30.00     3.599     1.659    -0.442
+                    -25.00     3.676     1.471    -0.401
+                    -20.00     3.734     1.307    -0.335
+                    -15.00     3.772     1.184    -0.261
+                    -10.00     3.795     1.104    -0.178
+                     -5.00     3.807     1.062    -0.090
+                     -2.50     3.810     1.051    -0.045
+                      0.00     3.811     1.048     0.000
+                      2.50     3.810     1.051     0.045
+                      5.00     3.807     1.062     0.090
+                     10.00     3.795     1.104     0.178
+                     15.00     3.772     1.184     0.261
+                     20.00     3.734     1.307     0.335
+                     25.00     3.676     1.471     0.401
+                     30.00     3.599     1.659     0.442
+                     35.00     3.499     1.827     0.461
+                     40.00     3.367     1.916     0.469
+                     50.00     3.001     1.961     0.427
+                     60.00     2.493     2.098     0.254
+- - - - - - - - Results for portside- - - - - - - - 
+         Equilibrium angle of heel =    0.00 degrees
+                 Downflooding angle=   39.27 degrees  (Downflooding opening : mid port)
+                        Maximum GZ =    0.469 m
+                             Range =   39.27 degrees
+                                 s =    1.0000
+- - - - - - - - Results for starboard- - - - - - - - 
+         Equilibrium angle of heel =    0.00 degrees
+                 Downflooding angle=   39.26 degrees  (Downflooding opening : mid starboard)
+                        Maximum GZ =    0.469 m
+                             Range =   39.26 degrees
+                                 s =    1.0000
+                                si =    1.0000
+                                ai =    0.1345
+
+
+25 Apr 2023  12:30:49       Damage case : 2.1
+======================================================================
+      Intact draft =    3.600                 Intact trim =    0.000
+                a|A|A|A|A|A|A||A|A|
+                a|A|A|A|A|A|A||A|A|A
+                      pi * ri * vi =    0.0631
+                 The vessel has sunk
+                                si =    0.0000
+                                ai =    0.0000
+
+
+25 Apr 2023  12:30:49       Damage case : 2.2
+======================================================================
+      Intact draft =    3.600                 Intact trim =    0.000
+                a|A|A|A|A|A|A||A|A|A
+                A|A|A|A|A|A|A|A|A|A|A|A|A|BA
+                      pi * ri * vi =    0.0673
+                 The vessel has sunk
+                                si =    0.0000
+                                ai =    0.0000
+
+
+25 Apr 2023  12:30:50       Damage case : 2.3
+======================================================================
+      Intact draft =    3.600                 Intact trim =    0.000
+                A|A|A|A|A|A|A|A|A|A|A|A|A|BA
+                |A|A|A|A|A|A|A|A|A|A|A|A|AAA
+                      pi * ri * vi =    0.0658
+                 The vessel has sunk
+                                si =    0.0000
+                                ai =    0.0000
+
+
+25 Apr 2023  12:30:50       Damage case : 3.1
+======================================================================
+      Intact draft =    3.600                 Intact trim =    0.000
+                a|A|A|A|A|A|A||A|A|
+                a|A|A|A|A|A|A||A|A|A
+                A|A|A|A|A|A|A|A|A|A|A|A|A|BA
+                      pi * ri * vi =    0.0000
+                 The vessel has sunk
+                                si =    0.0000
+                                ai =    0.0000
+
+
+25 Apr 2023  12:30:51       Damage case : 1.1
+======================================================================
+      Intact draft =    4.000                 Intact trim =    0.000
+                a|A|A|A|A|A|A||A|A|
+                      pi * ri * vi =    0.0861
+               Inclination     Draft      Trim     Lever
+                    -60.00     4.222    -7.150    -0.071
+                    -50.00     4.165    -4.688    -0.193
+                    -40.00     4.151    -3.156    -0.248
+                    -35.00     4.147    -2.613    -0.252
+                    -30.00     4.134    -2.192    -0.260
+                    -25.00     4.118    -1.876    -0.265
+                    -20.00     4.109    -1.666    -0.253
+                    -15.00     4.115    -1.579    -0.204
+                    -10.00     4.127    -1.572    -0.133
+                     -5.00     4.133    -1.567    -0.065
+                     -2.50     4.135    -1.566    -0.033
+                      0.00     4.135    -1.566     0.000
+                      2.50     4.135    -1.566     0.033
+                      5.00     4.133    -1.567     0.065
+                     10.00     4.127    -1.572     0.133
+                     15.00     4.115    -1.579     0.204
+                     20.00     4.109    -1.666     0.253
+                     25.00     4.118    -1.876     0.265
+                     30.00     4.134    -2.192     0.260
+                     35.00     4.147    -2.613     0.252
+                     40.00     4.150    -3.156     0.248
+                     50.00     4.165    -4.689     0.193
+                     60.00     4.222    -7.150     0.071
+- - - - - - - - Results for portside- - - - - - - - 
+         Equilibrium angle of heel =    0.00 degrees
+                 Downflooding angle=   22.87 degrees  (Downflooding opening : aft port)
+                        Maximum GZ =    0.263 m
+                             Range =   22.87 degrees
+                                 s =    1.0000
+- - - - - - - - Results for starboard- - - - - - - - 
+         Equilibrium angle of heel =    0.00 degrees
+                 Downflooding angle=   22.85 degrees  (Downflooding opening : aft starboard)
+                        Maximum GZ =    0.263 m
+                             Range =   22.85 degrees
+                                 s =    1.0000
+                                si =    1.0000
+                                ai =    0.0861
+
+
+25 Apr 2023  12:30:51       Damage case : 1.2
+======================================================================
+      Intact draft =    4.000                 Intact trim =    0.000
+                a|A|A|A|A|A|A||A|A|A
+                      pi * ri * vi =    0.2338
+               Inclination     Draft      Trim     Lever
+                    -60.00    15.570   -64.073     0.241
+                    -50.00    12.803   -47.938     0.185
+                    -40.00    11.205   -38.717     0.133
+                    -35.00    10.651   -35.519     0.109
+                    -30.00    10.209   -32.966     0.087
+                    -25.00     9.862   -30.977     0.067
+                    -20.00     9.592   -29.422     0.050
+                    -15.00     9.386   -28.233     0.035
+                    -10.00     9.239   -27.390     0.022
+                     -5.00     9.153   -26.900     0.011
+                     -2.50     9.133   -26.783     0.006
+                      0.00     9.123   -26.725     0.000
+                      2.50     9.133   -26.783    -0.006
+                      5.00     9.153   -26.900    -0.011
+                     10.00     9.239   -27.390    -0.022
+                     15.00     9.386   -28.233    -0.035
+                     20.00     9.591   -29.420    -0.050
+                     25.00     9.860   -30.959    -0.067
+                     30.00    10.209   -32.966    -0.087
+                     35.00    10.650   -35.516    -0.109
+                     40.00    11.206   -38.718    -0.133
+                     50.00    12.804   -47.946    -0.185
+                     60.00    15.573   -64.096    -0.241
+- - - - - - - - Results for portside- - - - - - - - 
+         Equilibrium angle of heel =   60.00 degrees
+                 Downflooding angle=   -0.01 degrees  (Downflooding opening : aft port)
+                        Maximum GZ =    0.000 m
+                             Range =    0.00 degrees
+                     Vessel capsized
+                                 s =    0.0000
+- - - - - - - - Results for starboard- - - - - - - - 
+         Equilibrium angle of heel =   60.00 degrees
+                 Downflooding angle=   -0.01 degrees  (Downflooding opening : aft port)
+                        Maximum GZ =    0.000 m
+                             Range =    0.00 degrees
+                     Vessel capsized
+                                 s =    0.0000
+                                si =    0.0000
+                                ai =    0.0000
+
+
+25 Apr 2023  12:30:51       Damage case : 1.3
+======================================================================
+      Intact draft =    4.000                 Intact trim =    0.000
+                A|A|A|A|A|A|A|A|A|A|A|A|A|BA
+                      pi * ri * vi =    0.3493
+                 The vessel has sunk
+                                si =    0.0000
+                                ai =    0.0000
+
+
+25 Apr 2023  12:30:51       Damage case : 1.4
+======================================================================
+      Intact draft =    4.000                 Intact trim =    0.000
+                |A|A|A|A|A|A|A|A|A|A|A|A|AAA
+                      pi * ri * vi =    0.1345
+               Inclination     Draft      Trim     Lever
+                    -60.00     3.636     0.737    -0.297
+                    -50.00     3.814     1.057    -0.471
+                    -40.00     3.975     1.348    -0.538
+                    -35.00     4.053     1.460    -0.519
+                    -30.00     4.110     1.487    -0.491
+                    -25.00     4.153     1.431    -0.446
+                    -20.00     4.188     1.338    -0.374
+                    -15.00     4.216     1.268    -0.282
+                    -10.00     4.233     1.226    -0.188
+                     -5.00     4.242     1.202    -0.094
+                     -2.50     4.244     1.197    -0.047
+                      0.00     4.245     1.195     0.000
+                      2.50     4.244     1.197     0.047
+                      5.00     4.242     1.202     0.094
+                     10.00     4.233     1.226     0.188
+                     15.00     4.216     1.268     0.282
+                     20.00     4.188     1.338     0.374
+                     25.00     4.153     1.431     0.446
+                     30.00     4.110     1.487     0.491
+                     35.00     4.053     1.460     0.519
+                     40.00     3.975     1.348     0.538
+                     50.00     3.814     1.057     0.471
+                     60.00     3.636     0.737     0.297
+- - - - - - - - Results for portside- - - - - - - - 
+         Equilibrium angle of heel =    0.00 degrees
+                 Downflooding angle=   32.41 degrees  (Downflooding opening : mid port)
+                        Maximum GZ =    0.506 m
+                             Range =   32.41 degrees
+                                 s =    1.0000
+- - - - - - - - Results for starboard- - - - - - - - 
+         Equilibrium angle of heel =    0.00 degrees
+                 Downflooding angle=   32.39 degrees  (Downflooding opening : mid starboard)
+                        Maximum GZ =    0.506 m
+                             Range =   32.39 degrees
+                                 s =    1.0000
+                                si =    1.0000
+                                ai =    0.1345
+
+
+25 Apr 2023  12:30:51       Damage case : 2.1
+======================================================================
+      Intact draft =    4.000                 Intact trim =    0.000
+                a|A|A|A|A|A|A||A|A|
+                a|A|A|A|A|A|A||A|A|A
+                      pi * ri * vi =    0.0631
+                 The vessel has sunk
+                                si =    0.0000
+                                ai =    0.0000
+
+
+25 Apr 2023  12:30:52       Damage case : 2.2
+======================================================================
+      Intact draft =    4.000                 Intact trim =    0.000
+                a|A|A|A|A|A|A||A|A|A
+                A|A|A|A|A|A|A|A|A|A|A|A|A|BA
+                      pi * ri * vi =    0.0673
+                 The vessel has sunk
+                                si =    0.0000
+                                ai =    0.0000
+
+
+25 Apr 2023  12:30:52       Damage case : 2.3
+======================================================================
+      Intact draft =    4.000                 Intact trim =    0.000
+                A|A|A|A|A|A|A|A|A|A|A|A|A|BA
+                |A|A|A|A|A|A|A|A|A|A|A|A|AAA
+                      pi * ri * vi =    0.0658
+                 The vessel has sunk
+                                si =    0.0000
+                                ai =    0.0000
+
+
+25 Apr 2023  12:30:53       Damage case : 3.1
+======================================================================
+      Intact draft =    4.000                 Intact trim =    0.000
+                a|A|A|A|A|A|A||A|A|
+                a|A|A|A|A|A|A||A|A|A
+                A|A|A|A|A|A|A|A|A|A|A|A|A|BA
+                      pi * ri * vi =    0.0000
+                 The vessel has sunk
+                                si =    0.0000
+                                ai =    0.0000
+
