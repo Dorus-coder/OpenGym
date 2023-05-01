@@ -42,14 +42,16 @@ def read_ai(source):
     except pd.errors.EmptyDataError as e:
         logger.exception(f"{e}")
         return 0.0
-    
+    df.dropna(inplace=True)
     _idx1 = int(len(df['ai']) / 3)
     _idx2 = _idx1 * 2
-    a_s = sum(df['ai'][:_idx1] * 0.4)
-    a_p = sum(df['ai'][_idx1: _idx2] * 0.4)
-    a_d = sum(df['ai'][_idx2:] * 0.2)
+    
 
-    return a_s + a_p + a_d
+    a_sp  = sum(df['ai'][:_idx2]) * 0.4
+    a_d = sum(df['ai'][_idx2:]) * 0.2
+    
+    
+    return a_sp + a_d
 
 def start_damage_stability_calc(source: str) -> float:
     global logger
@@ -74,7 +76,7 @@ def start_damage_stability_calc(source: str) -> float:
     process.kill()
     return ai
 
-if __name__ == "__main__":
+def _main_1():
     import time
     
     # render = RenderLayoutModule(source="C:\\Users\\cursist\\Dorus\\ThesisResearch\\PiasExampleFiles\\temp\\goa1", servermode='noHMI', serverport=14100)
@@ -96,3 +98,13 @@ if __name__ == "__main__":
         elif "pi".encode() in line:
             print(line)
     kill_process_if_running('layout.exe')
+
+def _main_2():
+    source = r"C:\Users\cursist\Dorus\ThesisResearch\PiasExampleFiles\csv_example.csv"
+    ai = read_ai(source)
+    print(f"{ai = }")
+
+
+if __name__ == "__main__":
+    _main_2()
+
