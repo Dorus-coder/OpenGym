@@ -40,6 +40,7 @@ def reward(att_idx: float, req_idx: float, layout: dict, volume_limit: float) ->
         # the ones are a placeholder for the weights
         reward = 1 * volumetric_reward + 1 * delta
         logger.info(f"reward(att_idx, req_idx, layout, volume_limit) -> reward = {reward}")
+        logger.info(f"max volume encountered {max_volume}")
         return reward
     else:
         logger.info(f"reward(att_idx, req_idx, layout, volume_limit) -> reward = -1")
