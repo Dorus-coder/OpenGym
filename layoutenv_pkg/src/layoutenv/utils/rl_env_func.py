@@ -3,7 +3,7 @@ import __main__
 import shutil
 from typing import Tuple
 import os
-
+from typing import List
 logger = logger_module.get_logger_from_config(__main__.__name__)
 
 def normalized_to_discrete(action: float) -> int:
@@ -46,7 +46,7 @@ def _reward(att_idx: float, req_idx: float, layout: dict, volume_limit: float) -
         logger.info(f"reward(att_idx, req_idx, layout, volume_limit) -> reward = -1")
         return -1
 
-def reward(att_idx: float, req_idx: float, layout: dict, min_volume: float) -> float:
+def _reward(att_idx: float, req_idx: float, layout: dict, min_volume: float) -> float:
     # it is noticed with experiments that if the reward doesn't provide information about the timestep i.e. give a negative reward of 1 when the 
     # attained index doesn't comply that the model doesn't know what to do because it recieves no information
     if att_idx < req_idx:
@@ -61,14 +61,17 @@ def reward(att_idx: float, req_idx: float, layout: dict, min_volume: float) -> f
         logger.info(f"reward(att_idx, req_idx, layout, volume_limit) -> reward = {volumetric_reward}")
         return  volumetric_reward   
          
-    
+# def reward(att_idx: List[float], reg_idx: float, layout: dict, min_volume: float) -> float:
+
     
 def terminated(rewards: list, copy: Tuple[str, str]) -> bool:
-    for idx in range(1, len(rewards)):
-        if rewards[idx - 1] > 0 and rewards[idx] < 0:
-            logger.info("terminated because a negative reward followed a positive reward.")
-            copy_directory(*copy)
-            return True 
+    # if previous reward is positive and current reward is positive
+    # we don't want a decreasing attained index. If the attained index is positive
+    # we want to have maximized volume and rather no extra  planes. 
+    if rewards[-2] > 0 and rewards[-1] < 0:
+        logger.info("terminated because a negative reward followed a positive reward.")
+        copy_directory(*copy)
+        return True 
     return False
 
 def _terminated(rewards: list, copy: Tuple[str, str]) -> bool:

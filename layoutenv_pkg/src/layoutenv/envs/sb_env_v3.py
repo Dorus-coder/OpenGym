@@ -19,6 +19,7 @@ class LayoutEnv3(LayoutEnv2):
 
         self.action_space = spaces.Box(low=-1, high=1, shape=(2,), dtype=np.float64)
         self.episode_count = 0
+        self.previous_att_idx = 0
 
     def _add_physical_plane(self, action: np.array):
         PlaneInfo = namedtuple("PlaneInfo", ["orientation", "upper_limit", "boundary_vertices"])
@@ -47,6 +48,25 @@ class LayoutEnv3(LayoutEnv2):
         self.logger.info(f"LayoutEnv._add_physical_plane, arg: {plane_info[discrete_action].orientation}: {action}, scaled: {discrete_action},{position}, bounds: 0, {plane_info[discrete_action].upper_limit}, vertices: {plane_info[discrete_action].boundary_vertices}")
         lutils.send(request)
 
+    def reward(self, att_idx: float, reg_idx: float, layout: dict):
+        if att_idx < reg_idx and att_idx > self.previous_att_idx:
+            reward = 1.0
+            self.logger.info(f"reward(att_idx, req_idx, layout, volume_limit) -> reward = {reward}")
+            return reward
+        elif att_idx < reg_idx and att_idx < self.previous_att_idx:
+            reward = -1.0
+            self.logger.info(f"reward(att_idx, req_idx, layout, volume_limit) -> reward = {reward}")
+            return reward 
+        elif att_idx > reg_idx:
+            max_volume = max(layout.values(), key=lambda x: x['volume'])['volume']
+            volumetric_reward = (max_volume - self.config['min_compartment_volume_a']) * 0.01
+            self.logger.info(f"reward(att_idx, req_idx, layout, volume_limit) -> reward = {volumetric_reward}")
+            return  volumetric_reward   
+        else:
+            self.logger.error('No reward given')
+            return -10
+
+
     def step(self, action: np.array):
         self.logger.info(f"LayoutEnv.step() @timestep {self.time_step}")
         self.time_step += 1
@@ -59,7 +79,7 @@ class LayoutEnv3(LayoutEnv2):
         observation, layout = self._observation()
         
         info = self._info(att_idx, req_idx)
-        reward = lutils.reward(att_idx, req_idx, layout, self.config["min_compartment_volume_a"])
+        reward = self.reward(att_idx, req_idx, layout)
         self.cum_reward.append(reward)
         copy = self.config["temp_file_no_suffix"], f"layouts\\improved_term\\episode_{self.episode_count}"
         done = lutils.terminated(self.cum_reward, copy) | self._truncated(max_time_steps=self.config["max_episode_length"])
