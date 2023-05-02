@@ -15,6 +15,7 @@ logs/
 models/
 *.zip
 results/
+PiasFiles/
 
 # Distribution / packaging
 gym-examples/
