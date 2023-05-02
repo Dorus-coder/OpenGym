@@ -59,7 +59,7 @@ class LayoutEnv3(LayoutEnv2):
         observation, layout = self._observation()
         
         info = self._info(att_idx, req_idx)
-        reward = lutils.reward(att_idx, req_idx, layout, self.config["max_volume"])
+        reward = lutils.reward(att_idx, req_idx, layout, self.config["min_compartment_volume_a"])
         self.cum_reward.append(reward)
         copy = self.config["temp_file_no_suffix"], f"layouts\\improved_term\\episode_{self.episode_count}"
         done = lutils.terminated(self.cum_reward, copy) | self._truncated(max_time_steps=self.config["max_episode_length"])

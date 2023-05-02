@@ -31,7 +31,7 @@ def copy_directory(src_dir: str, dst_dir: str):
         else:
             shutil.copy2(src_path, dst_path)
 
-def reward(att_idx: float, req_idx: float, layout: dict, volume_limit: float) -> float:
+def _reward(att_idx: float, req_idx: float, layout: dict, volume_limit: float) -> float:
     # Add an increase in attained index as positive reward and guide the model towards it.
     if att_idx >= req_idx:
         max_volume = max(layout.values(), key=lambda x: x['volume'])['volume']
@@ -45,6 +45,23 @@ def reward(att_idx: float, req_idx: float, layout: dict, volume_limit: float) ->
     else:
         logger.info(f"reward(att_idx, req_idx, layout, volume_limit) -> reward = -1")
         return -1
+
+def reward(att_idx: float, req_idx: float, layout: dict, min_volume: float) -> float:
+    # it is noticed with experiments that if the reward doesn't provide information about the timestep i.e. give a negative reward of 1 when the 
+    # attained index doesn't comply that the model doesn't know what to do because it recieves no information
+    if att_idx < req_idx:
+        reinforcement = att_idx - req_idx
+        logger.info(f"reward(att_idx, req_idx, layout, volume_limit) -> reward = {reinforcement}")
+        return reinforcement
+    else:
+        # how to guide the agent to a solution with a high volume? The only action it has are adding planes, which decrease the volume.
+        # the reward in this implementation would be the last timestep and check if the solution is good enough. 
+        max_volume = max(layout.values(), key=lambda x: x['volume'])['volume']
+        volumetric_reward = (max_volume - min_volume) * 0.01
+        logger.info(f"reward(att_idx, req_idx, layout, volume_limit) -> reward = {volumetric_reward}")
+        return  volumetric_reward   
+         
+    
     
 def terminated(rewards: list, copy: Tuple[str, str]) -> bool:
     for idx in range(1, len(rewards)):
