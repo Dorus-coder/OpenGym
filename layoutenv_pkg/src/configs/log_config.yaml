@@ -8,7 +8,7 @@ handlers:
     class: logging.FileHandler
     level: DEBUG
     formatter: simple
-    filename: logs/env2.log
+    filename: F:\\SARC\\ONTWIK\\cursist\\Dorus\\logs\\training.log
     mode: 'w'
   console:
     class: logging.StreamHandler
