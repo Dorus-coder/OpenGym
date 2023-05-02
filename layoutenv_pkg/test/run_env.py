@@ -5,7 +5,7 @@ env = gym.make("layoutenv:LayoutEnv-v3")
 
 number_of_episodes = 5
 total_reward = []
-env.render(mode="GUIviewer")
+env.render(mode="noHMI")
 
 for episode in range(number_of_episodes):
     ob = env.reset()

@@ -3,7 +3,7 @@ from piascomms.client import Client
 from piascomms.internal_geometry.shape_manipulation.xml_request import RemovePhysicalPlane, AddPhysicalPlane
 from collections import namedtuple
 from gym import spaces
-from .empty_layout import Copy
+import shutil
 from random import randint
 import layoutenv.utils as lutils
 import numpy as np
@@ -80,9 +80,9 @@ class LayoutEnv3(LayoutEnv2):
         
         info = self._info(att_idx, req_idx)
         reward = self.reward(att_idx, req_idx, layout)
+        self.previous_att_idx = att_idx
         self.cum_reward.append(reward)
-        copy = self.config["temp_file_no_suffix"], f"layouts\\improved_term\\episode_{self.episode_count}"
-        done = lutils.terminated(self.cum_reward, copy) | self._truncated(max_time_steps=self.config["max_episode_length"])
+        done = lutils.terminated(self.cum_reward, self.config, self.episode_count) | self._truncated(max_time_steps=self.config["max_episode_length"])
 
         return observation, reward, done, info
     
@@ -98,10 +98,8 @@ class LayoutEnv3(LayoutEnv2):
 
         c = Client()
         
-        copy = Copy()
-        copy.source = self.config["hull_source"][randint(0, 1)]
-        copy.copy()
-        self.logger.info(f"func name: render(), arg: source: {copy.source}")
+        source = lutils.copy_layout_random_source(source=self.config)
+        self.logger.info(f"func name: render(), arg: source: {source}")
         self.renderer.start_process()
         while not c.server_check():
             print('loading.....')

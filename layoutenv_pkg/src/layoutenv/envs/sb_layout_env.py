@@ -8,7 +8,6 @@ from piascomms.internal_geometry.shape_manipulation.xml_request import RemovePhy
 from piascomms.utils import observation_space_by_id
 from piascomms.layout_properties import PlaneData, CompartmentData
 from pathlib import Path
-from .empty_layout import Copy
 from piascomms.client import Client
 from time import sleep
 from typing import Dict, List
@@ -34,6 +33,7 @@ class LayoutEnv2(Env):
         self.time_step = 0
         self.logger = logger_mod.get_logger_from_config(name=__main__.__name__)
         self.cum_reward = []
+
 
     @property
     def planes_list(self):

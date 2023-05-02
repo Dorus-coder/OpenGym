@@ -14,6 +14,7 @@ logs/
 *.log
 models/
 *.zip
+results/
 
 # Distribution / packaging
 gym-examples/
