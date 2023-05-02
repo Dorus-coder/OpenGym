@@ -5,7 +5,7 @@ import os
 
 ALG  = "PPO"
 run = 1
-models_dir = f"models/{ALG}_sb_env{run}"
+models_dir = f"F:\\SARC\\ONTWIK\\cursist\\Dorus\\models\\models\\{ALG}_sb_env{run}"
 logdir = "logs"
 
 if not os.path.exists(models_dir):
