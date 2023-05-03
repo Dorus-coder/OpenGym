@@ -13,6 +13,7 @@ from time import sleep
 from typing import Dict, List
 import layoutenv.logger_module as logger_mod
 import json
+from pathlib import Path
 import layoutenv.utils as lutils
 import __main__
 
@@ -48,8 +49,9 @@ class LayoutEnv2(Env):
         return {plane.physical_plane_id: plane.name for plane in self.planes_list}
 
     @property
-    def compartments(self) -> dict:
-        return CompartmentData(self.config["data_source"])
+    def compartments(self) -> CompartmentData:
+        source = Path.cwd() / self.config["data_source"]
+        return CompartmentData(xml_path=source)
 
     def _info(self, att_idx: float, req_idx: float) -> dict:
         self.logger.info(f"required subdivision idx :{req_idx}, attained subdivision idx :{att_idx}")

@@ -1,5 +1,5 @@
 {
-    "data_source": "C:\\Users\\cursist\\Dorus\\OpenGym\\recieved_data.xml",
+    "data_source": "recieved_data.xml",
     "probdam_extensions": [".csv", ".pd0"],
     "layout_file_extensions": [".lay", ".lor", ".lo1", ".lo2", ".lo3", ".lo4"],
     "layout_arrangement": ["PiasFiles\\NoTrans\\goa1", "PiasFiles\\back_up_empty_ship\\goa1"],
