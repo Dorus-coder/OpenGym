@@ -19,7 +19,7 @@ class LayoutEnv3(LayoutEnv2):
         super().__init__()
         self.renderer = lutils.RenderLayoutModule(source=self.config["temp_file"], serverport=self.config['serverport'], servermode=mode)
         self.action_space = spaces.Box(low=-1, high=1, shape=(2,), dtype=np.float64)
-        self.episode_count = -1
+        self.episode_count = 128
         self.previous_att_idx = 0
 
     def _add_physical_plane(self, action: np.array):
@@ -63,7 +63,11 @@ class LayoutEnv3(LayoutEnv2):
             self.logger.info(f"reward(att_idx, req_idx, layout, volume_limit) -> reward = {reward}")
             return reward 
         elif att_idx >= reg_idx:
-            max_volume = max(layout.values(), key=lambda x: x['volume'])['volume']
+            try:
+                max_volume = max(layout.values(), key=lambda x: x['volume'])['volume']
+            except ValueError as e:
+                self.logger.exception(f"{e}")
+                self.logger.error(f"lenght layout {len(layout.values())}")
             volumetric_reward = (max_volume - self.config['min_compartment_volume_a']) * 0.01
             self.logger.info(f"reward(att_idx, req_idx, layout, volume_limit) -> reward = {volumetric_reward}")
             return  volumetric_reward   
