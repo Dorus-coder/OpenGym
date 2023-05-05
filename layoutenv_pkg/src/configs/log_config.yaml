@@ -8,7 +8,7 @@ handlers:
     class: logging.FileHandler
     level: DEBUG
     formatter: simple
-    filename: F:\\SARC\\ONTWIK\\cursist\\Dorus\\logs\\training.log
+    filename: C:\\Users\\cursist\\Dorus\\OpenGym\\logs\\training.log
     mode: 'w'
   console:
     class: logging.StreamHandler

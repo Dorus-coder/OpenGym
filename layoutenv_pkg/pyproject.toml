@@ -16,7 +16,8 @@ dependencies = [
   "stable-baselines3>=1.7.0",
   "pandas",
   "PyYAML",
-  "psutil"
+  "psutil",
+  "tensorboard"
 
 
 ]

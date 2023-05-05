@@ -1,7 +1,9 @@
-from stable_baselines3 import A2C
+from stable_baselines3 import A2C, PPO
 from stable_baselines3.common.evaluation import evaluate_policy
 import gym
 import os
+
+pp = PPO.load()
 
 ALG  = "A2C"
 run = 3
