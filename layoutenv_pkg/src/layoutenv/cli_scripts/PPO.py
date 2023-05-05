@@ -5,7 +5,7 @@ import os
 ALG  = "PPO"
 run = 1
 
-models_dir = f"C:\\Users\\cursist\\Dorus\\OpenGym\\models\\{ALG}_sb_env{run}"
+models_dir = f"C:\\Dorus\\models\\{ALG}_sb_env{run}"
 logdir = "logs"
 
 if not os.path.exists(models_dir):
@@ -16,9 +16,9 @@ if not os.path.exists(logdir):
 
 env = gym.make("layoutenv:LayoutEnv-v3")
 
-n_steps = 4
+n_steps = 128
 n_envs = 1
-n_epochs = 4
+n_epochs = 3
 
 model = PPO(policy="MlpPolicy", 
             n_epochs=n_epochs, 

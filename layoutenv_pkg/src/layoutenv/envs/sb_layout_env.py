@@ -20,7 +20,7 @@ import __main__
 class LayoutEnv2(Env):
     metadata = {'render.modes': ['GUIviewer', 'noHMI']}
     def __init__(self) -> None:
-        config_file = Path(r"layoutenv_pkg\\src\\configs\\config.json").open('r')
+        config_file = Path(r"OpenGym\\layoutenv_pkg\\src\\configs\\config.json").open('r')
         self.config = json.loads(config_file.read())
         self.episode_count = 0
         # self.action_space = Dict(
