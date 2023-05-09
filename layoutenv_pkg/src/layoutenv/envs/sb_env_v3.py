@@ -19,7 +19,7 @@ class LayoutEnv3(LayoutEnv2):
         super().__init__()
         self.renderer = lutils.RenderLayoutModule(source=self.config["temp_file"], serverport=self.config['serverport'], servermode=mode)
         self.action_space = spaces.Box(low=-1, high=1, shape=(2,), dtype=np.float64)
-        self.episode_count = 128
+        self.episode_count = 388
         self.previous_att_idx = 0
 
     def _add_physical_plane(self, action: np.array):
@@ -68,6 +68,7 @@ class LayoutEnv3(LayoutEnv2):
             except ValueError as e:
                 self.logger.exception(f"{e}")
                 self.logger.error(f"lenght layout {len(layout.values())}")
+                max_volume = 0
             volumetric_reward = (max_volume - self.config['min_compartment_volume_a']) * 0.01
             self.logger.info(f"reward(att_idx, req_idx, layout, volume_limit) -> reward = {volumetric_reward}")
             return  volumetric_reward   
@@ -97,7 +98,7 @@ class LayoutEnv3(LayoutEnv2):
     
     def reset(self):
         # reload the vessel layout xml file because the compartment names change during interactions with the layout.
-        
+        # print("reset"*50)
         if self.renderer.process_is_running():
             self.renderer.kill_process()
         self.episode_count += 1
