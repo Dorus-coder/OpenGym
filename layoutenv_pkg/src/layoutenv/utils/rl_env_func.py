@@ -69,7 +69,7 @@ def terminated(rewards: list, config: dict, episode) -> bool:
     # if previous reward is positive and current reward is positive
     # we don't want a decreasing attained index. If the attained index is positive
     # we want to have maximized volume and rather no extra  planes. 
-    if len(rewards) > 2 and rewards[-2] > 0 and rewards[-1] < 0:
+    if len(rewards) > 2 and rewards[-2] > 0 and rewards[-1] <= 0:
         logger.info("terminated because a negative reward followed a positive reward.")
         copy_files_after_termination(source=config, episode=episode)
         return True 
