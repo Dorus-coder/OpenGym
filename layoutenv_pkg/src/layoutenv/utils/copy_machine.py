@@ -4,6 +4,7 @@ from tkinter import Tk, messagebox
 import random
 import time 
 import os
+
 def copy_layout_random_source(source: dict):
     """
     Arg:
@@ -13,7 +14,7 @@ def copy_layout_random_source(source: dict):
         the random picked source file for debuging purposes
     """
     cwd = Path.cwd()
-    layout = cwd / Path(source["layout_arrangement"][random.randint(0, 1)])
+    layout = cwd / Path(source["layout_arrangement"][random.randint(0, 3)])
     for extension in source["layout_file_extensions"]:
         file = layout.with_suffix(extension)
         shutil.copy2(src=file, dst=source["temp_dir"])
