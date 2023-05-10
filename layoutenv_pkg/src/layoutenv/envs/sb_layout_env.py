@@ -60,7 +60,7 @@ class LayoutEnv2(Env):
     def _observation(self):
         ROWS, COLS = 50, 4
         obs = np.arange(ROWS*1*COLS).reshape((ROWS, COLS))
-        obs = np.full_like(obs, fill_value=0, dtype=np.float64)
+        obs = np.full_like(obs, fill_value=-1, dtype=np.float64)
         self.comp_ids += [max(self.comp_ids) + 1]
         layout = observation_space_by_id(_range=(min(self.comp_ids), max(self.comp_ids)), max_volume=self.config["max_volume"])
         for idx, prop in enumerate(list(layout.values())):
