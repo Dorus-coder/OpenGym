@@ -5,11 +5,17 @@ import time
 import pandas as pd
 import layoutenv.logger_module as logger_mod
 import __main__
+import shutil 
 
 logger = logger_mod.get_logger_from_config(name=__main__.__name__)
 
 import subprocess
 import psutil
+
+def copy_pias_config():
+    cwd = Path.cwd()
+    shutil.copy2(src=cwd / "PiasFiles\\back_up_empty_ship\\goa1.cnf1", 
+                 dst=cwd / "PiasFiles\\temp\\goa1.cnf1")
 
 class RenderLayoutModule:
     def __init__(self, source: str, serverport: int, servermode: str) -> None:    
@@ -17,6 +23,7 @@ class RenderLayoutModule:
         self.process = None
         
     def start_process(self):
+        copy_pias_config()
         self.process = subprocess.Popen(self.command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         
     def kill_process(self):
@@ -55,6 +62,8 @@ def read_ai(source):
 
 def start_damage_stability_calc(source: str) -> float:
     global logger
+
+    copy_pias_config()
 
     pd0_path = Path(source)
     if pd0_path.suffix != ".csv":

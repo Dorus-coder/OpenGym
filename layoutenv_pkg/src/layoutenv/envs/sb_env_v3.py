@@ -67,19 +67,23 @@ class LayoutEnv3(LayoutEnv2):
             try:
                 volume = max(layout.values(), key=lambda x: x['volume'])['volume']
                 if self.max_volume and volume > self.max_volume:
-                    volumetric_reward = (volume - self.config['min_compartment_volume_a']) * 0.01
+                    # The biggest compartment volume is bigger as the biggest compartment volume in the previous timestep.
+                    volumetric_reward  = (volume - self.config['min_compartment_volume_a']) * 0.01
                 elif not self.max_volume:
+                    # This is the first timesteps
                     volumetric_reward = (volume - self.config['min_compartment_volume_a']) * 0.01
                 else:
+                    # There were previous volumetric rewards only the biggest compartment is equal or smaller as the biggest
+                    # compartment in the previous timestep.
                     volumetric_reward = 0.0
-          
+                self.max_volume = volume
             except ValueError as e:
                 self.logger.exception(f"{e}")
                 self.logger.error(f"lenght layout {len(layout.values())}")
-                volume = 0
-            volumetric_reward = (volume - self.config['min_compartment_volume_a']) * 0.01
+            
             self.logger.info(f"reward(att_idx, req_idx, layout, volume_limit) -> reward = {volumetric_reward}")
-            return  volumetric_reward   
+            self.logger.info(f"the biggest compartment volume is {volume}")
+            return  volumetric_reward  
         else:
             self.logger.error('No reward given')
             return -10
@@ -107,8 +111,11 @@ class LayoutEnv3(LayoutEnv2):
     def reset(self):
         # reload the vessel layout xml file because the compartment names change during interactions with the layout.
         # print("reset"*50)
+        self.max_volume = None
+
         if self.renderer.process_is_running():
             self.renderer.kill_process()
+
         self.episode_count += 1
         self.logger.info(f"LayoutEnv2.reset() called. at episode :{self.episode_count} and timestep :{self.time_step}")
     
