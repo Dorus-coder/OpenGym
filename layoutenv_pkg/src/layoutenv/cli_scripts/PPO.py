@@ -7,11 +7,11 @@ import os
 
 
 ALG  = "PPO"
-run = 2
+run = 4
 
 models_dir = f"C:\\Dorus\\models\\{ALG}_sb_env{run}"
 logdir = "logs"
-tmp_path = "tmp/sb3_log_3/"
+tmp_path = f"tmp/sb3_log_{run}/"
 new_logger = configure(tmp_path, ["stdout", "csv", "tensorboard", "log"])
 
 if not os.path.exists(models_dir):
@@ -31,26 +31,25 @@ n_envs = 1
 n_epochs = 5
 learn_rate = 0.003
 
-model = PPO(policy="MlpPolicy", 
-            n_epochs=n_epochs, 
-            n_steps=n_steps, 
-            env=env, 
-            device="cpu", 
-            tensorboard_log=logdir, 
-            verbose=1,
-            batch_size=n_steps*n_envs,
-            learning_rate=learn_rate)
+# model = PPO(policy="MlpPolicy", 
+#             n_epochs=n_epochs, 
+#             n_steps=n_steps, 
+#             env=env, 
+#             device="cpu", 
+#             tensorboard_log=logdir, 
+#             verbose=1,
+#             batch_size=n_steps*n_envs,
+#             learning_rate=learn_rate)
 
-# model = PPO.load(r"models\PPO_sb_env2\24320.zip", env=env, device='cpu')
+model = PPO.load(r"models\PPO_sb_env4\3840.zip", env=env, device='cpu')
 model.set_logger(new_logger)
-
 
 mean_reward, std_reward = evaluate_policy(model, model.get_env(), n_eval_episodes=10)
 # print(f"{mean_reward = }")
 # print(f"{std_reward = }")
 
 TIMESTEPS = n_steps * n_envs * n_epochs
-for i in range(1, 1000):
+for i in range(7, 1000):
     model.learn(total_timesteps=TIMESTEPS, reset_num_timesteps=False, tb_log_name=f"{ALG}_sb_env{run}", callback=eval_callback)
     model.save(f"{models_dir}/{TIMESTEPS*i}")
 

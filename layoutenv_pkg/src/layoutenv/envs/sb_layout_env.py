@@ -4,25 +4,26 @@ This environment only allows placing transverse frames
 from gym import Env
 from gym.spaces import Box, Dict
 import numpy as np
-from piascomms.internal_geometry.shape_manipulation.xml_request import RemovePhysicalPlane, AddPhysicalPlane
 from piascomms.utils import observation_space_by_id
 from piascomms.layout_properties import PlaneData, CompartmentData
 from pathlib import Path
 from piascomms.client import Client
-from time import sleep
 from typing import Dict, List
 import layoutenv.logger_module as logger_mod
 import json
 from pathlib import Path
 import layoutenv.utils as lutils
+import time
 import __main__
 
 class LayoutEnv2(Env):
     metadata = {'render.modes': ['GUIviewer', 'noHMI']}
-    def __init__(self) -> None:
+    def __init__(self, mode="noHMI") -> None:
         config_file = Path(r"OpenGym\\layoutenv_pkg\\src\\configs\\config.json").open('r')
         self.config = json.loads(config_file.read())
         self.episode_count = 0
+        self.total_timesteps = 0
+        self.renderer = lutils.RenderLayoutModule(source=self.config["temp_file"], serverport=self.config['serverport'], servermode=mode)
         # self.action_space = Dict(
         #     {
         #         "orientation": Discrete(3),
@@ -79,22 +80,43 @@ class LayoutEnv2(Env):
         return obs, layout
 
 
-    def _reward(self, att_idx: float, req_idx, layout: dict) -> float:
-        # base the reward function on the gradient of the cummulated reward.
-        delta = att_idx - req_idx
-        volumetric_reward = 0
-        for volume in layout.values():
-            if volume['volume'] >= self.config["min_compartment_volume_a"]:
-                volumetric_reward += 3
-            elif volume['volume'] >= self.config["min_compartment_volume_b"]:
-                volumetric_reward += 2 
-            elif volume['volume'] >= self.config["min_compartment_volume_c"]:
-                volumetric_reward += 1
-        reward = delta * volumetric_reward
-        if volumetric_reward == 0:
-            reward = -5    
-        self.logger.info(f"LayoutEnv2._reward(att_idx: float) -> reward = {reward}")
-        return reward   
+    def reward(self, att_idx: float, reg_idx: float, layout: dict):
+        if att_idx < reg_idx and att_idx > self.previous_att_idx:
+            reward = 1.0
+            self.logger.info(f"reward(att_idx, req_idx, layout, volume_limit) -> reward = {reward}")
+            return reward
+        elif att_idx < reg_idx and att_idx < self.previous_att_idx:
+            reward = -1.0
+            self.logger.info(f"reward(att_idx, req_idx, layout, volume_limit) -> reward = {reward}")
+            return reward 
+        elif att_idx < reg_idx and att_idx == self.previous_att_idx:
+            reward = -1.0
+            self.logger.info(f"reward(att_idx, req_idx, layout, volume_limit) -> reward = {reward}")
+            return reward 
+        elif att_idx >= reg_idx:
+            try:
+                volume = max(layout.values(), key=lambda x: x['volume'])['volume']
+                if self.max_volume and volume > self.max_volume:
+                    # The biggest compartment volume is bigger as the biggest compartment volume in the previous timestep.
+                    volumetric_reward  = (volume - self.config['min_compartment_volume_a']) * 0.01
+                elif not self.max_volume:
+                    # This is the first timesteps
+                    volumetric_reward = (volume - self.config['min_compartment_volume_a']) * 0.01
+                else:
+                    # There were previous volumetric rewards only the biggest compartment is equal or smaller as the biggest
+                    # compartment in the previous timestep.
+                    volumetric_reward = 0.0
+                self.max_volume = volume
+            except ValueError as e:
+                self.logger.exception(f"{e}")
+                self.logger.error(f"lenght layout {len(layout.values())}")
+            
+            self.logger.info(f"reward(att_idx, req_idx, layout, volume_limit) -> reward = {volumetric_reward}")
+            self.logger.info(f"the biggest compartment volume is {volume}")
+            return  volumetric_reward  
+        else:
+            self.logger.error('No reward given')
+            return -10  
 
     def _truncated(self, max_time_steps: int) -> bool:
         """An episode is truncated when the max number of timestep is reached.
@@ -105,73 +127,58 @@ class LayoutEnv2(Env):
         else:
             return False
 
-    def step(self, action):
+    def step(self, action: np.array):
         self.logger.info(f"LayoutEnv.step() @timestep {self.time_step}")
         self.time_step += 1
-        lower = 0
-        upper = self.config["length"]
-        position = lutils.rescale_actions(action, lower, upper)
-
-        self.logger.info(f"LayoutEnv.step, arg: action: {action}, scaled: {position}, lower_bound: {lower}, {upper}")
-
-        request = AddPhysicalPlane(self.planes_list, "Frame", -position, 5, 6)
-        request.boundary_contour_vertices = [(5, 4, 0, 0, 2), (5, 3, 0, 0, 2), (6, 3, 0, 0, 2), (5, 4, 0, 0, 2)]
-        self.logger.info(f"AddPhysicalPlane, Frame, position {position}")
-        lutils.send(request)
         
+        lutils.add_physical_plane(action, self.planes_list)
+
         att_idx = lutils.start_damage_stability_calc(self.config['ai_results'])
+        req_idx = lutils.required_index(self.config["length"])
 
         observation, layout = self._observation()
         
-        info = self._info(att_idx)
-        reward = self._reward(att_idx, layout)
+        info = self._info(att_idx, req_idx)
+        reward = self.reward(att_idx, req_idx, layout)
+        self.previous_att_idx = att_idx
         self.cum_reward.append(reward)
-        done = lutils.terminated(self.cum_reward) | self._truncated(max_time_steps=self.config["max_episode_length"])
-
+        done = lutils.terminated(self.cum_reward, self.config, self.episode_count) | self._truncated(max_time_steps=self.config["max_episode_length"])
+        self.total_timesteps += 1
         return observation, reward, done, info
 
     def render(self, mode="noHMI"):
+        raise NotImplementedError("This function is not used")
+
+    def reset(self, seed=None):
+        # reload the vessel layout xml file because the compartment names change during interactions with the layout.
+        # print("reset"*50)
+        self.max_volume = None
+
+        if self.renderer.process_is_running():
+            self.renderer.kill_process()
+
+        self.episode_count += 1
+        self.logger.info(f"LayoutEnv2.reset() called. at episode :{self.episode_count} and timestep :{self.time_step}")
+    
+        self.time_step = 0
+        self.cum_reward = []
+
         c = Client()
-        self.renderer = lutils.RenderLayoutModule(source=self.config["temp_file"], serverport=self.config['serverport'], servermode=mode)
-        copy = Copy()
-        copy.source = self.config["hull_source"][0]
-        copy.copy()
-        self.logger.info(f"func name: render(), arg: source: {copy.source}")
-        self.renderer.start_proces()
+        
+        if seed:
+            source = lutils.copy_layout_random_source(source=self.config, seed=seed)
+        else:
+            source = lutils.copy_layout_random_source(source=self.config, seed=None)
+
+        self.logger.info(f"Reset with filename {source}")
+        self.renderer.start_process()
         while not c.server_check():
             print('loading.....')
         print('server live')
-        sleep(2)
+        time.sleep(2)
 
-
-    def _close(self) -> None:
-        self.logger.info("LayoutEnv.close(): Layout module closed.")
-        self.renderer.kill_process()
-
-    def reset(self):
-        # reload the vessel layout xml file because the compartment names change during interactions with the layout.
-        self.logger.info(f"LayoutEnv2.reset() called. at episode :{self.episode_count} and timestep :{self.time_step}")
-        self.episode_count += 1
-        self.time_step = 0
-        self.cum_reward = []
-        default = [("Uiterste achtervlak", 1), ("Uiterste voorvlak", 2), ("Uiterste BBvlak", 3),("Uiterste SBvlak", 4), ("Uiterste ondervlak", 5), ("Uiterste bovenvlak", 6), ("Frame 80 (40.000 m)", 13), ("Frame 160 (80.000 m)", 16), ("Deck 4.000 m", 18), ("Deck 1.000 m", 17), ("Longitudinal bulkhead 0.000 m", 19), ("Longitudinal bulkhead 2.350 m", 20), ("Longitudinal bulkhead -2.350 m", 21), ("Longitudinal bulkhead 4.000 m", 22), ("Longitudinal bulkhead -4.000 m", 23) ]
-        # default.pop(random.randint(6, 15)) for an environment with more actions, I want to compare the reward function with env1
         lutils.request_layout()
         self.comp_ids = list(self.compartments.name_id.values())
-        for _id, _name in self.plane_name_by_id.items():
-            skip_id = [plane[1] for plane in default]
-            if _id in skip_id:
-                continue
-            else:
-                request = RemovePhysicalPlane(_id)
-
-                client = Client()
-                self.logger.info(f"RemovePhysicalPlane with id {_id} and name {_name}")
-                try:
-                    client.send_from_stream(request.to_xml_string())
-                except ConnectionResetError as e:
-                    self.logger.exception(f"{e}")
-                    self.logger.warning(f'warning {e}')
         observation, _ = self._observation()
         return observation
 

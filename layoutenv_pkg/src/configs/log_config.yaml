@@ -19,7 +19,7 @@ loggers:
     level: INFO
     handlers: ["file_handler"]
     propogate: False
-  piascomms:
-    level: DEBUG
+  logger_root:
+    level: INFO
     handlers: ["file_handler"]
-    propogate: False
+    propogate: False 

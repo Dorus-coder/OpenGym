@@ -4,8 +4,10 @@ from tkinter import Tk, messagebox
 import random
 import time 
 import os
+from typing import Optional
 
-def copy_layout_random_source(source: dict):
+
+def copy_layout_random_source(source: dict, seed: Optional[int] = None):
     """
     Arg:
         source (dict): config file of the environment with pias file locations\n
@@ -14,11 +16,17 @@ def copy_layout_random_source(source: dict):
         the random picked source file for debuging purposes
     """
     cwd = Path.cwd()
-    layout = cwd / Path(source["layout_arrangement"][random.randint(0, 3)])
+
+    if seed:
+        layout = cwd / Path(source["layout_arrangement"][seed])
+    else:
+        layout = cwd / Path(source["layout_arrangement"][random.randint(0, 3)])
     for extension in source["layout_file_extensions"]:
         file = layout.with_suffix(extension)
         shutil.copy2(src=file, dst=source["temp_dir"])
     return layout
+
+copy_layout_random_source()
 
 CURRENT_TIME = time.strftime('%Y-%m-%d-%H-%M-%S')
 
