@@ -26,7 +26,7 @@ def copy_layout_random_source(source: dict, seed: Optional[int] = None):
         shutil.copy2(src=file, dst=source["temp_dir"])
     return layout
 
-copy_layout_random_source()
+
 
 CURRENT_TIME = time.strftime('%Y-%m-%d-%H-%M-%S')
 
