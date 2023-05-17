@@ -153,8 +153,9 @@ class LayoutEnv2(Env):
     def reset(self, seed=None):
         # reload the vessel layout xml file because the compartment names change during interactions with the layout.
         # print("reset"*50)
-        self.max_volume = None
         self.previous_att_idx = 0
+        self.max_volume = None
+        
         if self.renderer.process_is_running():
             self.renderer.kill_process()
 
