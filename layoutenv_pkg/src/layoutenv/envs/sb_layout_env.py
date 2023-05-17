@@ -2,7 +2,7 @@
 This environment only allows placing transverse frames
 """
 from gym import Env
-from gym.spaces import Box, Dict
+from gym import spaces
 import numpy as np
 from piascomms.utils import observation_space_by_id
 from piascomms.layout_properties import PlaneData, CompartmentData
@@ -15,27 +15,30 @@ from pathlib import Path
 import layoutenv.utils as lutils
 import time
 import __main__
+from typing import Optional
+from stable_baselines3.common.utils import set_random_seed
 
 class LayoutEnv2(Env):
     metadata = {'render.modes': ['GUIviewer', 'noHMI']}
     def __init__(self, mode="noHMI") -> None:
+        
         config_file = Path(r"OpenGym\\layoutenv_pkg\\src\\configs\\config.json").open('r')
         self.config = json.loads(config_file.read())
-        self.episode_count = 0
+        
+        self.episode_count = -1
         self.total_timesteps = 0
-        self.renderer = lutils.RenderLayoutModule(source=self.config["temp_file"], serverport=self.config['serverport'], servermode=mode)
-        # self.action_space = Dict(
-        #     {
-        #         "orientation": Discrete(3),
-        #         "position": Box(low=-1, high=1, shape=(1,), dtype=np.float32),
-        #     }
-        # )
-        self.action_space = Box(low=-1, high=1, shape=(1,), dtype=np.float64)
-        self.observation_space = Box(low=-1, high=1, shape=(50, 4), dtype=np.float64)
         self.time_step = 0
-        self.logger = logger_mod.get_logger_from_config(name=__main__.__name__)
+        self.previous_att_idx = 0
+        self.max_volume = None
+
+        self.renderer = lutils.RenderLayoutModule(source=self.config["temp_file"], serverport=self.config['serverport'], servermode=mode)
+
+        self.action_space = spaces.Box(low=-1, high=1, shape=(2,), dtype=np.float64)
+        self.observation_space = spaces.Box(low=-1, high=1, shape=(50, 4), dtype=np.float64)
         self.cum_reward = []
 
+        self.logger = logger_mod.get_logger_from_config(name=__main__.__name__)
+    
 
     @property
     def planes_list(self):
@@ -81,42 +84,40 @@ class LayoutEnv2(Env):
 
 
     def reward(self, att_idx: float, reg_idx: float, layout: dict):
-        if att_idx < reg_idx and att_idx > self.previous_att_idx:
-            reward = 1.0
-            self.logger.info(f"reward(att_idx, req_idx, layout, volume_limit) -> reward = {reward}")
-            return reward
-        elif att_idx < reg_idx and att_idx < self.previous_att_idx:
-            reward = -1.0
-            self.logger.info(f"reward(att_idx, req_idx, layout, volume_limit) -> reward = {reward}")
-            return reward 
-        elif att_idx < reg_idx and att_idx == self.previous_att_idx:
-            reward = -1.0
-            self.logger.info(f"reward(att_idx, req_idx, layout, volume_limit) -> reward = {reward}")
-            return reward 
-        elif att_idx >= reg_idx:
-            try:
-                volume = max(layout.values(), key=lambda x: x['volume'])['volume']
-                if self.max_volume and volume > self.max_volume:
-                    # The biggest compartment volume is bigger as the biggest compartment volume in the previous timestep.
-                    volumetric_reward  = (volume - self.config['min_compartment_volume_a']) * 0.01
-                elif not self.max_volume:
+        try:
+            volume = max(layout.values(), key=lambda x: x['volume'])['volume']
+        except ValueError as e:
+            volume = 0
+            self.logger.exception(f"{e}")
+            self.logger.error(f"lenght layout {len(layout.values())}")
+
+        if att_idx >= reg_idx:
+
+                if not self.max_volume:
                     # This is the first timesteps
-                    volumetric_reward = (volume - self.config['min_compartment_volume_a']) * 0.01
+                    reward = (volume - self.config['min_compartment_volume_a']) * 0.01
+                    self.logger.info(f"reward = {reward} @ total_timestep {self.total_timesteps} and max _volume {volume}")
+                    self.max_volume = volume
+                    return reward
+
+                elif self.max_volume and volume > self.max_volume:
+                    # The biggest compartment volume is bigger as the biggest compartment volume in the previous timestep.
+                    reward = (volume - self.config['min_compartment_volume_a']) * 0.01
+                    self.logger.info(f"reward = {reward} @ total_timestep {self.total_timesteps} and max _volume {volume}")
+                    self.max_volume = volume
+                    return reward
                 else:
                     # There were previous volumetric rewards only the biggest compartment is equal or smaller as the biggest
                     # compartment in the previous timestep.
-                    volumetric_reward = 0.0
-                self.max_volume = volume
-            except ValueError as e:
-                self.logger.exception(f"{e}")
-                self.logger.error(f"lenght layout {len(layout.values())}")
-            
-            self.logger.info(f"reward(att_idx, req_idx, layout, volume_limit) -> reward = {volumetric_reward}")
-            self.logger.info(f"the biggest compartment volume is {volume}")
-            return  volumetric_reward  
-        else:
-            self.logger.error('No reward given')
-            return -10  
+                    reward = 0.0 
+                    self.logger.info(f"reward = {reward} @ total_timestep {self.total_timesteps} and max _volume {volume}")
+                    self.max_volume = volume
+                    return reward
+                
+        self.max_volume = volume
+        reward = -1
+        self.logger.info(f"reward = {reward} @ total_timestep {self.total_timesteps} and max _volume {volume}")
+        return -1
 
     def _truncated(self, max_time_steps: int) -> bool:
         """An episode is truncated when the max number of timestep is reached.
@@ -153,11 +154,11 @@ class LayoutEnv2(Env):
         # reload the vessel layout xml file because the compartment names change during interactions with the layout.
         # print("reset"*50)
         self.max_volume = None
-
+        self.previous_att_idx = 0
         if self.renderer.process_is_running():
             self.renderer.kill_process()
 
-        self.episode_count += 1
+        
         self.logger.info(f"LayoutEnv2.reset() called. at episode :{self.episode_count} and timestep :{self.time_step}")
     
         self.time_step = 0
@@ -182,5 +183,23 @@ class LayoutEnv2(Env):
         observation, _ = self._observation()
         return observation
 
+    def seed(self, seed: Optional[int] = None):
+        """Sets the seed for this env's random number generator(s).
 
+        Note:
+            Some environments use multiple pseudorandom number generators.
+            We want to capture all such seeds used in order to ensure that
+            there aren't accidental correlations between multiple generators.
+
+        Returns:
+            list<bigint>: Returns the list of seeds used in this env's random
+            number generators. The first value in the list should be the
+            "main" seed, or the value which a reproducer should pass to
+            'seed'. Often, the main seed equals the provided 'seed', but
+            this won't be true if seed=None, for example.
+        """
+        if seed:
+            set_random_seed(seed)
+            
+        return [seed]
 

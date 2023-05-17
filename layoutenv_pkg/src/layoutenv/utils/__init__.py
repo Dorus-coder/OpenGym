@@ -3,6 +3,8 @@ from layoutenv.utils.conversions import convert_action, convert_observation, inv
 from layoutenv.utils.start_process import start_damage_stability_calc, RenderLayoutModule
 from layoutenv.utils.layout_helpers import required_index, request_layout, boundary_vertice, planes_of_type, removed_planes, add_physical_plane
 from layoutenv.utils.copy_machine import copy_layout_random_source, copy_files_after_termination
+from layoutenv.utils.hyper_parameter_func import linear_schedule
+
 
 __all__ = ["terminated", 
            "convert_observation", 
@@ -17,4 +19,5 @@ __all__ = ["terminated",
            "RenderLayoutModule",
            "copy_layout_random_source",
            "copy_files_after_termination",
-           "add_physical_plane"]
+           "add_physical_plane",
+           "linear_schedule"]
