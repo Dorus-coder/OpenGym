@@ -37,7 +37,7 @@ class LayoutEnv3(LayoutEnv2):
         elif att_idx >= reg_idx:
             if self.max_volume and volume > self.max_volume:
                 # The biggest compartment volume is bigger as the biggest compartment volume in the previous timestep
-                self.logger.info(f"reward(att_idx, req_idx, layout, volume_limit) -> reward = {VOLUMETRIC_REWARD} \nthe biggest compartment volume is {volume}")
+                self.logger.info(f"reward(att_idx, req_idx, layout, volume_limit) -> reward = {VOLUMETRIC_REWARD} \nthe biggest - is {volume}")
                 self.max_volume = volume
                 return VOLUMETRIC_REWARD
             elif self.max_volume and volume <= self.max_volume:
