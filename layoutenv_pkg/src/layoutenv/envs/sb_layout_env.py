@@ -143,7 +143,7 @@ class LayoutEnv2(Env):
         reward = self.reward(att_idx, req_idx, layout)
         self.previous_att_idx = att_idx
         self.cum_reward.append(reward)
-        done = lutils.terminated(self.cum_reward, self.config, self.episode_count) | self._truncated(max_time_steps=self.config["max_episode_length"])
+        done = lutils.terminated(self.cum_reward, self.config, self.episode_count, copy=True) | self._truncated(max_time_steps=self.config["max_episode_length"])
         self.total_timesteps += 1
         return observation, reward, done, info
 
@@ -155,6 +155,7 @@ class LayoutEnv2(Env):
         # print("reset"*50)
         self.previous_att_idx = 0
         self.max_volume = None
+        self.episode_count += 1
         
         if self.renderer.process_is_running():
             self.renderer.kill_process()

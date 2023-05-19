@@ -13,7 +13,7 @@ class LayoutEnv3(LayoutEnv2):
 
         # config_file = Path(r"OpenGym\\layoutenv_pkg\\src\\configs\\config_env2.json").open('r')
         # self.config = json.loads(config_file.read())
-        self.episode_count = 1754
+        # self.episode_count = 1754
 
     def reward(self, att_idx: float, reg_idx: float, layout: dict) -> float:
         try:
