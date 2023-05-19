@@ -160,7 +160,12 @@ class LayoutEnv2(Env):
     def reset(self, seed=None):
         # reload the vessel layout xml file because the compartment names change during interactions with the layout.
         # print("reset"*50)
-        write_results_to_csv(data=[[self.max_volume, self.att_idx]])
+        if seed:
+            source = lutils.copy_layout_random_source(source=self.config, seed=seed)
+        else:
+            source = lutils.copy_layout_random_source(source=self.config, seed=None)
+
+        write_results_to_csv(data=[[self.max_volume, self.att_idx, source]])
 
         self.previous_att_idx = 0
         self.max_volume = None
@@ -177,10 +182,6 @@ class LayoutEnv2(Env):
 
         c = Client()
         
-        if seed:
-            source = lutils.copy_layout_random_source(source=self.config, seed=seed)
-        else:
-            source = lutils.copy_layout_random_source(source=self.config, seed=None)
 
         self.logger.info(f"Reset with filename {source}")
         self.renderer.start_process()

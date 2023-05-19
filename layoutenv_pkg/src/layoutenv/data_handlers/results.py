@@ -18,7 +18,7 @@ def write_results_to_csv(data: List[list], filename: str = "results_per_episode.
         with open(filename, 'w', newline="") as file:
             
             writer = csv.writer(file, delimiter=',')
-            writer.writerows([['volume', 'attained idx']])
+            writer.writerows([['volume', 'attained idx', 'source']])
     
     append_to_csv(file_path=filename, data=data)
 
