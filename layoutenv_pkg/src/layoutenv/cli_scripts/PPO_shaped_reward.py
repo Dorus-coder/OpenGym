@@ -4,7 +4,6 @@ from stable_baselines3.common.callbacks import StopTrainingOnRewardThreshold, Ev
 from stable_baselines3.common.logger import configure
 import gym
 import os
-import layoutenv.utils as lutils
 
 ALG  = "PPO"
 run = 6
@@ -16,7 +15,6 @@ new_logger = configure(tmp_path, ["stdout", "csv", "tensorboard", "log"])
 
 if not os.path.exists(models_dir):
     os.makedirs(models_dir)
-
 if not os.path.exists(logdir):
     os.makedirs(logdir)
 if not os.path.exists(tmp_path):
@@ -51,6 +49,7 @@ model.set_logger(new_logger)
 # print(f"{std_reward = }")
 
 TIMESTEPS = n_steps * n_envs * n_epochs
+
 for i in range(31, 1000):
     model.learn(total_timesteps=TIMESTEPS, reset_num_timesteps=False, tb_log_name=f"{ALG}_sb_env{run}", callback=eval_callback)
     model.save(f"{models_dir}/{TIMESTEPS*i}")
