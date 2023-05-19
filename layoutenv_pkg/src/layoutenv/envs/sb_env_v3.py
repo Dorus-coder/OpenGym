@@ -15,7 +15,7 @@ class LayoutEnv3(LayoutEnv2):
         # self.config = json.loads(config_file.read())
         # self.episode_count = 1754
 
-    def reward(self, att_idx: float, reg_idx: float, layout: dict) -> float:
+    def reward(self, att_idx: float, layout: dict) -> float:
         try:
             volume = max(layout.values(), key=lambda x: x['volume'])['volume']
         except ValueError as e:
@@ -28,13 +28,15 @@ class LayoutEnv3(LayoutEnv2):
         VOLUMETRIC_REWARD = (volume - self.config['min_compartment_volume_a']) * 0.01
         NEUTRAL_REWARD = float(0.0)
 
-        if att_idx < reg_idx and att_idx > self.previous_att_idx:
+        if att_idx < self.req_idx and att_idx > self.previous_att_idx:
             self.logger.info(f"reward(att_idx, req_idx, layout, volume_limit) -> reward = {POSITIVE_REWARD} \nthe biggest compartment volume is {volume}")
+            self.max_volume = volume
             return POSITIVE_REWARD
-        elif att_idx < reg_idx and att_idx <= self.previous_att_idx:
+        elif att_idx < self.req_idx and att_idx <= self.previous_att_idx:
             self.logger.info(f"reward(att_idx, req_idx, layout, volume_limit) -> reward = {NEGATIVE_REWARD} \nthe biggest compartment volume is {volume}")
+            self.max_volume = volume
             return NEGATIVE_REWARD 
-        elif att_idx >= reg_idx:
+        elif att_idx >= self.req_idx:
             if self.max_volume and volume > self.max_volume:
                 # The biggest compartment volume is bigger as the biggest compartment volume in the previous timestep
                 self.logger.info(f"reward(att_idx, req_idx, layout, volume_limit) -> reward = {VOLUMETRIC_REWARD} \nthe biggest - is {volume}")

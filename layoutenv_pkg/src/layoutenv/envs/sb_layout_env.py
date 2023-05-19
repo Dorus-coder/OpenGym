@@ -17,12 +17,13 @@ import time
 import __main__
 from typing import Optional
 from stable_baselines3.common.utils import set_random_seed
+from layoutenv.data_handlers import write_results_to_csv
 
 class LayoutEnv2(Env):
     metadata = {'render.modes': ['GUIviewer', 'noHMI']}
     def __init__(self, mode="noHMI") -> None:
         
-        config_file = Path(r"OpenGym\\layoutenv_pkg\\src\\configs\\config.json").open('r')
+        config_file = Path(r"layoutenv_pkg\\src\\configs\\config.json").open('r')
         self.config = json.loads(config_file.read())
         
         self.episode_count = -1
@@ -31,6 +32,8 @@ class LayoutEnv2(Env):
         self.previous_att_idx = 0
         self.max_volume = None
 
+        self.req_idx = lutils.required_index(self.config["length"])
+        self.att_idx = None
         self.renderer = lutils.RenderLayoutModule(source=self.config["temp_file"], serverport=self.config['serverport'], servermode=mode)
 
         self.action_space = spaces.Box(low=-1, high=1, shape=(2,), dtype=np.float64)
@@ -57,9 +60,9 @@ class LayoutEnv2(Env):
         source = Path.cwd() / self.config["data_source"]
         return CompartmentData(xml_path=source)
 
-    def _info(self, att_idx: float, req_idx: float) -> dict:
-        self.logger.info(f"required subdivision idx :{req_idx}, attained subdivision idx :{att_idx}")
-        return {"Required subdivision idx": req_idx, "Attained subdivision idx": att_idx}
+    def _info(self, att_idx: float) -> dict:
+        self.logger.info(f"required subdivision idx :{self.req_idx}, attained subdivision idx :{att_idx}, max volume: {self.max_volume}")
+        return {"Required subdivision idx": self.req_idx, "Attained subdivision idx": att_idx, "max volume": self.max_volume}
 
     def _observation(self):
         ROWS, COLS = 50, 4
@@ -83,7 +86,7 @@ class LayoutEnv2(Env):
         return obs, layout
 
 
-    def reward(self, att_idx: float, reg_idx: float, layout: dict):
+    def reward(self, att_idx: float, layout: dict):
         try:
             volume = max(layout.values(), key=lambda x: x['volume'])['volume']
         except ValueError as e:
@@ -91,7 +94,7 @@ class LayoutEnv2(Env):
             self.logger.exception(f"{e}")
             self.logger.error(f"lenght layout {len(layout.values())}")
 
-        if att_idx >= reg_idx:
+        if att_idx >= self.req_idx:
 
                 if not self.max_volume:
                     # This is the first timesteps
@@ -134,17 +137,21 @@ class LayoutEnv2(Env):
         
         lutils.add_physical_plane(action, self.planes_list)
 
-        att_idx = lutils.start_damage_stability_calc(self.config['ai_results'])
-        req_idx = lutils.required_index(self.config["length"])
+        self.att_idx = lutils.start_damage_stability_calc(self.config['ai_results'])
+        
 
         observation, layout = self._observation()
         
-        info = self._info(att_idx, req_idx)
-        reward = self.reward(att_idx, req_idx, layout)
-        self.previous_att_idx = att_idx
+        
+
+        reward = self.reward(self.att_idx, layout)
+        self.previous_att_idx = self.att_idx
         self.cum_reward.append(reward)
-        done = lutils.terminated(self.cum_reward, self.config, self.episode_count, copy=True) | self._truncated(max_time_steps=self.config["max_episode_length"])
+
+        done = lutils.terminated(self.cum_reward, self.config, self.episode_count, copy=False) | self._truncated(max_time_steps=self.config["max_episode_length"])
         self.total_timesteps += 1
+
+        info = self._info(self.att_idx)
         return observation, reward, done, info
 
     def render(self, mode="noHMI"):
@@ -153,8 +160,9 @@ class LayoutEnv2(Env):
     def reset(self, seed=None):
         # reload the vessel layout xml file because the compartment names change during interactions with the layout.
         # print("reset"*50)
+        write_results_to_csv(data=[[self.max_volume, self.att_idx]])
+
         self.previous_att_idx = 0
-        
         self.max_volume = None
         self.episode_count += 1
         
