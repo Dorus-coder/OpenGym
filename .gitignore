@@ -16,6 +16,7 @@ models/
 *.zip
 results/
 PiasFiles/
+*.csv
 
 # Distribution / packaging
 gym-examples/

@@ -154,6 +154,7 @@ class LayoutEnv2(Env):
         # reload the vessel layout xml file because the compartment names change during interactions with the layout.
         # print("reset"*50)
         self.previous_att_idx = 0
+        
         self.max_volume = None
         self.episode_count += 1
         
