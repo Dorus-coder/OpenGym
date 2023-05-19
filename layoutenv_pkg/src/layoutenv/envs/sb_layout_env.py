@@ -2,7 +2,7 @@
 This environment only allows placing transverse frames
 """
 from gym import Env
-from gym.spaces import Box, Dict
+from gym import spaces
 import numpy as np
 from piascomms.internal_geometry.shape_manipulation.xml_request import RemovePhysicalPlane, AddPhysicalPlane
 from piascomms.utils import observation_space_by_id
@@ -29,8 +29,8 @@ class LayoutEnv2(Env):
         #         "position": Box(low=-1, high=1, shape=(1,), dtype=np.float32),
         #     }
         # )
-        self.action_space = Box(low=-1, high=1, shape=(1,), dtype=np.float64)
-        self.observation_space = Box(low=-1, high=1, shape=(50, 4), dtype=np.float64)
+        self.action_space = spaces.Box(low=-1, high=1, shape=(2,), dtype=np.float64)
+        self.observation_space = spaces.Box(low=-1, high=1, shape=(50, 4), dtype=np.float64)
         self.time_step = 0
         self.logger = logger_mod.get_logger_from_config(name=__main__.__name__)
         self.cum_reward = []

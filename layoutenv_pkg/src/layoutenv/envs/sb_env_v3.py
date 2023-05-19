@@ -18,7 +18,6 @@ class LayoutEnv3(LayoutEnv2):
         """
         super().__init__()
         self.renderer = lutils.RenderLayoutModule(source=self.config["temp_file"], serverport=self.config['serverport'], servermode=mode)
-        self.action_space = spaces.Box(low=-1, high=1, shape=(2,), dtype=np.float64)
         self.episode_count = -1
         self.previous_att_idx = 0
         self.max_volume = None
