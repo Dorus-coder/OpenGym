@@ -10,6 +10,12 @@ handlers:
     formatter: simple
     filename: C:\\Dorus\\logs\\training.log
     mode: 'w'
+  file_handler_2:
+    class: logging.FileHandler
+    level: DEBUG
+    formatter: simple
+    filename: C:\\Dorus\\logs\\shaped_reward.log
+    mode: 'w'
   console:
     class: logging.StreamHandler
     level: DEBUG
@@ -19,7 +25,11 @@ loggers:
     level: INFO
     handlers: ["file_handler"]
     propogate: False
-  piascomms:
-    level: DEBUG
+  logger_root:
+    level: INFO
     handlers: ["file_handler"]
-    propogate: False
+    propogate: False 
+  shaped_reward:
+    level: INFO
+    handlers: ["file_handler_2"]
+    propogate: False 

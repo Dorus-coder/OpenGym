@@ -1,10 +1,47 @@
 from piascomms.internal_geometry.shape_manipulation.xml_request import RequestFactory
 from piascomms.internal_geometry.shape_manipulation.xml2dataclasses.physical_planes import BoundaryContourVertices 
 from piascomms.client import Client, TranslateReply
+from piascomms.internal_geometry.shape_manipulation.xml_request import RemovePhysicalPlane, AddPhysicalPlane
 from typing import List
 from pathlib import Path
+from collections import namedtuple
+from ..utils.list_man import send
+from ..utils.rl_env_func import normalized_to_discrete
+from ..utils.conversions import rescale_actions
+import numpy as np
+import layoutenv.logger_module as logger_mod
+import __main__
 
 
+
+logger = logger_mod.get_logger_from_config(__main__.__name__)
+
+def add_physical_plane(action: np.array, planes_list: list):
+    PlaneInfo = namedtuple("PlaneInfo", ["orientation", "upper_limit", "boundary_vertices"])
+    plane_info = {0: PlaneInfo("Longitudinal bulkhead", 11.5 / 2, [(2, 5), (1, 5), (1, 6), (2, 6), (2, 5)]),
+            1: PlaneInfo("Frame", 96, [(5, 4), (5, 3), (6, 3), (5, 4)]),
+            2: PlaneInfo("Deck", 10, [(1, 4), (2, 4), (2, 3), (1, 3), (1, 4)])}
+    
+    discrete_action = normalized_to_discrete(action[0])
+    upper = plane_info[discrete_action].upper_limit
+
+    position = rescale_actions(action[1], 0, upper)
+
+    request = AddPhysicalPlane(planes_list,
+                                plane_info[discrete_action].orientation, 
+                                -position,
+                                plane_info[discrete_action].boundary_vertices)
+
+    # ensure longitudinal bulkheads are symmetrical along the center plane
+    if plane_info[discrete_action][0] == "Longitudinal bulkhead" and action[1] != -1:
+        request_symmetry = AddPhysicalPlane(planes_list, 
+                                    plane_info[discrete_action].orientation, 
+                                    position,
+                                    plane_info[discrete_action].boundary_vertices)
+        send(request_symmetry)
+
+    logger.info(f"LayoutEnv._add_physical_plane, arg: {plane_info[discrete_action].orientation}: {action}, scaled: {discrete_action},{position}, bounds: 0, {plane_info[discrete_action].upper_limit}, vertices: {plane_info[discrete_action].boundary_vertices}")
+    send(request)
 
 def required_index(subdivision_length: float):
     r_0 = 1 - 128 / (subdivision_length + 152)

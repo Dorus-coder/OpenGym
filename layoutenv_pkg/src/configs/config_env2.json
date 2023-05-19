@@ -1,0 +1,23 @@
+{
+    "data_source": "recieved_data.xml",
+    "probdam_extensions": [".csv", ".pd0"],
+    "layout_file_extensions": [".lay", ".lor", ".lo1", ".lo2", ".lo3", ".lo4"],
+    "layout_arrangement": ["PiasFiles_env2\\NoTrans\\goa1", "PiasFiles_env2\\back_up_empty_ship\\goa1", "PiasFiles_env2\\hull\\goa1", "PiasFiles_env2\\hull2\\goa1"],
+    "temp_file": "PiasFiles_env2\\temp\\goa1",
+    "temp_dir": "PiasFiles_env2\\temp",
+    "ai_results": "PiasFiles_env2\\temp\\goa1",
+    "model": "PPO",
+    "results_dir": "results_env2",
+    "serverport": 15000,
+    "servermode": "noHMI",
+    "length": 96,
+    "breadth": 11.5,
+    "depth": 10,
+    "max_volume": 7000,
+    "max_episode_length": 15,
+    "min_compartment_volume_a": 800,
+    "min_compartment_volume_b": 450,
+    "min_compartment_volume_c": 30,
+    "converge_treshold": 0.01,
+    "time_limit_pias": 900 
+}

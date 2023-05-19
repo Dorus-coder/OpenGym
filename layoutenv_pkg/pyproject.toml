@@ -36,7 +36,7 @@ find = {}
 
 [project.scripts]
 ppo = "layoutenv.cli_scripts:PPO"
-
+ppo_shaped = "layoutenv.cli_scripts:PPO_shaped_reward"
 
 
 
