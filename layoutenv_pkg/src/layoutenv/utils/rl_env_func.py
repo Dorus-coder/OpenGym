@@ -49,7 +49,7 @@ def terminated(rewards: list, config: dict, episode: Optional[int] = None, copy:
 
 if __name__ == "__main__":
 
-    assert terminated([-1, 0], {}) == False, 'should return True'
+    assert terminated([-1, 0], {}) == False, 'should return False'
     assert terminated([-1, -1, -1, 1, 1, 0], {}) == True, 'should return True'
     assert terminated([1, 1, -1, 5, 5], {}) == True, 'should return True'
 
