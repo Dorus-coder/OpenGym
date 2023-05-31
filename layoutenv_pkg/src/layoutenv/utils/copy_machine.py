@@ -17,10 +17,11 @@ def copy_layout_random_source(source: dict, seed: Optional[int] = None):
     """
     cwd = Path.cwd()
 
-    if seed:
+    if seed is not None:
         layout = cwd / Path(source["layout_arrangement"][seed])
     else:
         layout = cwd / Path(source["layout_arrangement"][random.randint(0, 3)])
+        
     for extension in source["layout_file_extensions"]:
         file = layout.with_suffix(extension)
         shutil.copy2(src=file, dst=source["temp_dir"])

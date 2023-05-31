@@ -17,7 +17,7 @@ class LayoutEnv3(LayoutEnv2):
 
     def reward(self, att_idx: float, layout: dict) -> float:
         try:
-            volume = max(layout.values(), key=lambda x: x['volume'])['volume']
+            volume = int(max(layout.values(), key=lambda x: x['volume'])['volume'])
         except ValueError as e:
             self.logger.exception(f"{e}")
             self.logger.error(f"lenght layout {len(layout.values())}")

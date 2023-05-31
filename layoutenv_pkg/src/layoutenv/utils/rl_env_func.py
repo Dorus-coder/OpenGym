@@ -35,19 +35,23 @@ def copy_directory(src_dir: str, dst_dir: str):
 
     
 def terminated(rewards: list, config: dict, episode: Optional[int] = None, copy: bool = False) -> bool:
-    # if previous reward is positive and current reward is positive
-    # we don't want a decreasing attained index. If the attained index is positive
-    # we want to have maximized volume and rather no extra  planes. 
+    # The termination function doesn't terminated when the objective is met
     if len(rewards) >= 2 and rewards[-2] > 0 and rewards[-1] <= 0:
         logger.info("terminated because a negative reward followed a positive reward.")
         if copy:
             copy_files_after_termination(source=config, episode=episode)
+            # The objective is met if the case below returns True.
         return True 
+    elif rewards[-1] > 1.0:
+        return True
     return False
 
 
-
-
-
 if __name__ == "__main__":
-    ...
+
+    assert terminated([-1, 0], {}) == False, 'should return True'
+    assert terminated([-1, -1, -1, 1, 1, 0], {}) == True, 'should return True'
+    assert terminated([1, 1, -1, 5, 5], {}) == True, 'should return True'
+
+
+

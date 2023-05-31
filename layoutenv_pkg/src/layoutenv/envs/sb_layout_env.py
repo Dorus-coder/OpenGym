@@ -18,30 +18,41 @@ import __main__
 from typing import Optional
 from stable_baselines3.common.utils import set_random_seed
 from layoutenv.data_handlers import write_results_to_csv
+import os
 
 class LayoutEnv2(Env):
     metadata = {'render.modes': ['GUIviewer', 'noHMI']}
     def __init__(self, mode="noHMI") -> None:
         
-        config_file = Path(r"layoutenv_pkg\\src\\configs\\config.json").open('r')
+        config_file = Path(r"OPenGym\\layoutenv_pkg\\src\\configs\\config.json").open('r')
         self.config = json.loads(config_file.read())
         
+        self._reset_seed = None
+
         self.episode_count = -1
         self.total_timesteps = 0
         self.time_step = 0
         self.previous_att_idx = 0
         self.max_volume = None
+        self.source = None
 
         self.req_idx = lutils.required_index(self.config["length"])
         self.att_idx = None
         self.renderer = lutils.RenderLayoutModule(source=self.config["temp_file"], serverport=self.config['serverport'], servermode=mode)
 
-        self.action_space = spaces.Box(low=-1, high=1, shape=(2,), dtype=np.float64)
-        self.observation_space = spaces.Box(low=-1, high=1, shape=(50, 4), dtype=np.float64)
+        self.action_space = spaces.Box(low=-1, high=1, shape=(2,), dtype=np.float32)
+        self.observation_space = spaces.Box(low=-1, high=1, shape=(50, 4), dtype=np.float32)
         self.cum_reward = []
 
         self.logger = logger_mod.get_logger_from_config(name=__main__.__name__)
     
+    @property
+    def reset_seed(self):
+        return self._reset_seed
+    
+    @reset_seed.setter
+    def reset_seed(self, seed: int):
+        self._reset_seed = seed
 
     @property
     def planes_list(self):
@@ -160,14 +171,11 @@ class LayoutEnv2(Env):
     def reset(self, seed=None):
         # reload the vessel layout xml file because the compartment names change during interactions with the layout.
         # print("reset"*50)
-        if seed:
-            source = lutils.copy_layout_random_source(source=self.config, seed=seed)
-        else:
-            source = lutils.copy_layout_random_source(source=self.config, seed=None)
 
-        write_results_to_csv(data=[[self.max_volume, self.att_idx, source]])
 
-        self.previous_att_idx = 0
+        write_results_to_csv(data=[[self.max_volume, self.att_idx, self.source]])
+
+        
         self.max_volume = None
         self.episode_count += 1
         
@@ -182,8 +190,12 @@ class LayoutEnv2(Env):
 
         c = Client()
         
+      
+        self.source = lutils.copy_layout_random_source(source=self.config, seed=self.reset_seed)
+   
+        self.previous_att_idx = lutils.start_damage_stability_calc(self.config['ai_results'])
 
-        self.logger.info(f"Reset with filename {source}")
+        self.logger.info(f"Reset with filename {self.source}")
         self.renderer.start_process()
         while not c.server_check():
             print('loading.....')

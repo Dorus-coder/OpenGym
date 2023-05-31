@@ -6,6 +6,8 @@ import pandas as pd
 import layoutenv.logger_module as logger_mod
 import __main__
 import shutil 
+import os
+from dataclasses import dataclass
 
 logger = logger_mod.get_logger_from_config(name=__main__.__name__)
 
@@ -16,6 +18,7 @@ def copy_pias_config():
     cwd = Path.cwd()
     shutil.copy2(src=cwd / "PiasFiles\\back_up_empty_ship\\goa1.cnf1", 
                  dst=cwd / "PiasFiles\\temp\\goa1.cnf1")
+
 
 class RenderLayoutModule:
     def __init__(self, source: str, serverport: int, servermode: str) -> None:    
@@ -60,10 +63,32 @@ def read_ai(source):
     
     return a_sp + a_d
 
+def copy_pd1(time):
+    cwd = Path.cwd()
+    if os.path.getmtime(cwd / "PiasFiles\\temp\\goa1.pd1") != time:
+        shutil.copy2(src=cwd / "PiasFiles\\back_up_empty_ship\\goa1.pd1", 
+                    dst=cwd / "PiasFiles\\temp\\goa1.pd1")
+        
+
+@dataclass
+class PD1_time:
+    PD1: float = os.path.getmtime(Path.cwd() / "PiasFiles\\temp\\goa1.pd1")
+
+
+
 def start_damage_stability_calc(source: str) -> float:
     global logger
+    global PD1
 
+
+    cwd = Path.cwd()
+
+    if os.path.getmtime(cwd / "PiasFiles\\temp\\goa1.pd1") != PD1_time().PD1:
+        shutil.copy2(src=cwd / "PiasFiles\\back_up_empty_ship\\goa1.pd1", 
+                    dst=cwd / "PiasFiles\\temp\\goa1.pd1")
+        logger.warning("PD1 file corupted, copied from back up.")
     copy_pias_config()
+
 
     pd0_path = Path(source)
     if pd0_path.suffix != ".csv":
