@@ -12,7 +12,7 @@ mean_reward, std_reward = evaluate_policy(model, model.get_env(), n_eval_episode
 print(f"{mean_reward = }")
 print(f"{std_reward = }")
 
-vec_env = model.get_env())
+vec_env = model.get_env()
 
 obs = vec_env.reset(seed=1)
 
