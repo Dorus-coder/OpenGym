@@ -42,7 +42,8 @@ model = PPO(policy="MlpPolicy",
             batch_size=n_steps*n_envs,
             learning_rate=lutils.linear_schedule(initial_val_learning_rate))
 
-model = PPO.load(r"models\PPO_sb_env6\27520.zip", env=env, device='cpu')
+#peek of run 2
+model = PPO.load(r"models\PPO_sb_env6\2560.zip", env=env, device='cpu')
 model.set_logger(new_logger)
 
 # mean_reward, std_reward = evaluate_policy(model, model.get_env(), n_eval_episodes=10)

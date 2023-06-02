@@ -13,7 +13,7 @@ def append_to_csv(file_path: str, data: List[list]) -> None:
         writer = csv.writer(file, delimiter=',')
         writer.writerows(data)
 
-def write_results_to_csv(data: List[list], filename: str = "results_per_episode.csv") -> None:
+def write_results_to_csv(data: List[list], filename: str = "TD3_5_3_results_3.csv") -> None:
     if not os.path.exists(filename):
         with open(filename, 'w', newline="") as file:
             

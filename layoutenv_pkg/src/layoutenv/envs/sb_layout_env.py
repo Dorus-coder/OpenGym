@@ -190,6 +190,7 @@ class LayoutEnv2(Env):
 
         c = Client()
         
+        self.reset_seed = None
       
         self.source = lutils.copy_layout_random_source(source=self.config, seed=self.reset_seed)
    

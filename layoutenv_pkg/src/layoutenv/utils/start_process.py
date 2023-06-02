@@ -43,6 +43,7 @@ class RenderLayoutModule:
             return False
 
 def read_ai(source):
+    global logger
     try:
         df = pd.read_csv(source)
         logger.info(f"read {source}")
