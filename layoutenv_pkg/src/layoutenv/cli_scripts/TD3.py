@@ -9,7 +9,7 @@ import gym
 import os
 
 ALG  = "TD3"
-run = "5/5_4"
+run = "5/5_6"
 
 models_dir = f"C:\\Dorus\\models\\{ALG}_sb_env{run}"
 logdir = "logs"
@@ -42,7 +42,7 @@ initial_val_learning_rate = 0.003
 #             seed=1,
 #             action_noise=action_noise)
 
-model = TD3.load(r"models\TD3_sb_env5\5_3\1500.zip", env=env, device='cpu')
+model = TD3.load(r"models\TD3_sb_env5\5_4\5000.zip", env=env, device='cpu')
 
 model.set_logger(new_logger)
 

@@ -53,13 +53,15 @@ def read_ai(source):
     except pd.errors.EmptyDataError as e:
         logger.exception(f"{e}")
         return 0.0
-    df.dropna(inplace=True)
-    _idx1 = int(len(df['ai']) / 3)
+    # save the ai index in its own dataframe to prevent losing important ai data
+    df_ai = df['ai']
+    df_ai.dropna(inplace=True)
+    _idx1 = int(len(df_ai) / 3)
     _idx2 = _idx1 * 2
     
 
-    a_sp  = sum(df['ai'][:_idx2]) * 0.4
-    a_d = sum(df['ai'][_idx2:]) * 0.2
+    a_sp  = sum(df_ai[:_idx2]) * 0.4
+    a_d = sum(df_ai[_idx2:]) * 0.2
     
     
     return a_sp + a_d

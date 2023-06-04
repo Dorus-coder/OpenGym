@@ -43,6 +43,7 @@ def terminated(rewards: list, config: dict, episode: Optional[int] = None, copy:
             # The objective is met if the case below returns True.
         return True 
     elif rewards[-1] > 1.0:
+        logger.info("terminated because reward was bigger than one and the objective is met.")
         return True
     return False
 
@@ -52,6 +53,6 @@ if __name__ == "__main__":
     assert terminated([-1, 0], {}) == False, 'should return False'
     assert terminated([-1, -1, -1, 1, 1, 0], {}) == True, 'should return True'
     assert terminated([1, 1, -1, 5, 5], {}) == True, 'should return True'
-
+    assert terminated([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 9.88], {}), "should return True"
 
 

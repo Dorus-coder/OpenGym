@@ -16,6 +16,10 @@ class LayoutEnv3(LayoutEnv2):
         # self.episode_count = 1754
 
     def reward(self, att_idx: float, layout: dict) -> float:
+        """
+        The reward function should should always assign a volumetric reward if the attaqined index is met/
+        The termination function should terminate the episode after a volumetric reward has been given.
+        """
         try:
             volume = int(max(layout.values(), key=lambda x: x['volume'])['volume'])
         except ValueError as e:
