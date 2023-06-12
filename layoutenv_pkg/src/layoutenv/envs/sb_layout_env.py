@@ -22,7 +22,7 @@ import os
 
 class LayoutEnv2(Env):
     metadata = {'render.modes': ['GUIviewer', 'noHMI']}
-    def __init__(self, mode="noHMI") -> None:
+    def __init__(self) -> None:
         
         config_file = Path(r"OPenGym\\layoutenv_pkg\\src\\configs\\config.json").open('r')
         self.config = json.loads(config_file.read())
@@ -38,7 +38,7 @@ class LayoutEnv2(Env):
 
         self.req_idx = lutils.required_index(self.config["length"])
         self.att_idx = None
-        self.renderer = lutils.RenderLayoutModule(source=self.config["temp_file"], serverport=self.config['serverport'], servermode=mode)
+        self.renderer = lutils.RenderLayoutModule(source=self.config["temp_file"], serverport=self.config['serverport'], servermode=self.config['servermode'])
 
         self.action_space = spaces.Box(low=-1, high=1, shape=(2,), dtype=np.float32)
         self.observation_space = spaces.Box(low=-1, high=1, shape=(50, 4), dtype=np.float32)
